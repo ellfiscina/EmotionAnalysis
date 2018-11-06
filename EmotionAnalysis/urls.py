@@ -18,5 +18,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('textmining/', include('textmining.urls')),
+    path('home/', include('LandingPage.urls')),
 ]
