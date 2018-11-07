@@ -1,7 +1,7 @@
 import os
 
 
-def handle_uploaded_file(file, filename):
+def UploadedFile(file, filename):
     if not os.path.exists('upload/'):
         os.mkdir('upload/')
 
