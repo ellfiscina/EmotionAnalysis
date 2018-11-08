@@ -4,18 +4,19 @@ from django.http import HttpResponse
 from .models import PreProcess, POSTag, Frequency, UploadedFile
 from .forms import UploadFileForm
 
+
 def index(request):
-    return render(request, 'TextMining/index.html', {'what':'Django File Upload'})
+    return render(request, 'TextMining/index.html')
+
 
 def upload(request):
     if request.method == 'POST':
         raw = UploadedFile(request.FILES['file'], str(request.FILES['file']))
-
         p = PreProcess(raw)
-        t = POSTag(raw)
-        f = Frequency()
-        f.tokens_frequency(p.filtered)
+        # t = POSTag(raw)
+        # f = Frequency()
+        # f.tokens_frequency(p.filtered)
 
-        return render(request, 'TextMining/upload.html', {'raw': raw})
+        return render(request, 'TextMining/upload.html', {'raw': p.tokens})
 
     return HttpResponse("Failed")

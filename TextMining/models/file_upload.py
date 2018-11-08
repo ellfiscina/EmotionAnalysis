@@ -10,4 +10,4 @@ def UploadedFile(file, filename):
             destination.write(chunk)
 
     file = open('upload/' + filename, 'r', encoding="utf8")
-    return file.read
+    return file.read()
