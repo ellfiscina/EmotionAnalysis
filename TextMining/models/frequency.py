@@ -2,19 +2,17 @@ from nltk import FreqDist
 
 
 class Frequency:
-    def __init__(self):
-        self.dist = []
-
-    def tokens_frequency(self, tokens):
+    def __init__(self, tokens):
+        self.tokens = tokens
         self.dist = FreqDist(tokens)
 
-    def lexical_diversity(tokens):
-        uniq = len(set(tokens))
-        total = len(tokens)
-        return (uniq / total) * 100
+    def lexical_diversity(self):
+        tokens = self.tokens
+        percentage = (len(set(tokens)) / len(tokens)) * 100
+        return round(percentage, 2)
 
-    def most_frequent(self, tokens, qtt):
-        sortedToken = sorted(list(set(tokens)),
+    def most_frequent(self, qtt):
+        sortedToken = sorted(list(set(self.tokens)),
                              key=lambda token: self.dist[token],
                              reverse=True)
         frequent = [(token, self.dist[token]) for token in sortedToken[:qtt]]
