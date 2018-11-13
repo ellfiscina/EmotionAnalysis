@@ -17,3 +17,9 @@ class Frequency:
                              reverse=True)
         frequent = [(token, self.dist[token]) for token in sortedToken[:qtt]]
         return frequent
+
+    def to_dict(self):
+        return {
+            'diversity': self.lexical_diversity(),
+            'frequent': self.most_frequent(20)
+        }

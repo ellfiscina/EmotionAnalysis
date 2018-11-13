@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css?family=Oxygen:400,300,700");
+* {
+  outline: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html, * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  height: 100vh;
+  min-height: 35rem;
+  position: relative;
+  font-family: 'Oxygen', sans-serif;
+  font-weight: 400;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+.index{
+  background-image: url("../images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+.main-wrapper .container{
+  float: left;
+}
+.main-wrapper .main-wrapper-content{
+  color: #95a5a6;
+  padding-left: 3rem;
+}
+.main-wrapper .main-wrapper-content h1 {
+  color: #16a085;
+  font-size: 2.5rem;
+  padding-top: 10px;
+}
+.main-wrapper .main-wrapper-content p {
+  font-size: 1.2rem;
+}
+.main-wrapper .main-wrapper-content p strong {
+  font-weight: 700;
+}
+@media (min-width: 768px) {
+  .main-wrapper {
+    height: 90vh;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .main-wrapper .main-wrapper-content {
+    width: 40.5rem;
+    padding-right: 3rem;
+  }
+  .main-wrapper .main-wrapper-content h1 {
+    font-size: 3.5rem;
+  }
+  .main-wrapper .main-wrapper-content p {
+    font-size: 1.3rem;
+  }
+}
+.btn-primary{
+  background-color: #10ac84;
+  border-color: #10ac84;
+}
+.btn-primary:hover{
+  background-color: #16A085;
+  border-color: #16A085;
+}
+form{
+  padding-bottom: 20px;
+}
+footer{
+  height: 10vh;
+  background-color: #252525;
+  border-top: 4px solid #16a085;
+  color: #ecf0f1;
+  padding: 2px 10px;
+}
+footer p{
+  font-size: small;
+}
+footer a{
+  color:white;
+  text-decoration:none;
+  font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;
+  font-size:12px;
+  line-height:1.2;
+  display:inline-block;
+  border-radius:3px
+}

@@ -22,6 +22,12 @@ class PreProcess:
     def convert_to_text(self):
         return nltk.Text(self.tokens)
 
+    def to_dict(self):
+        return {
+            'tokens': self.tokens,
+            'filtered': self.filtered
+        }
+
 
 class POSTag(PreProcess):
     tagger = TreeTagger(language='portuguese')
@@ -55,3 +61,9 @@ class POSTag(PreProcess):
             else:
                 words.append(tokens[i])
         return words
+
+    def to_dict(self):
+        return {
+            'tokens': self.tokens,
+            'filtered': self.filtered,
+        }

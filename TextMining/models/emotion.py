@@ -71,3 +71,9 @@ class Analysis():
             elif w == 'confiança':
                 newList.append('nojo')
         return newList
+
+    def to_dict(self):
+        return {
+            'emotionCount': self.emotionCounts,
+            'wordCount': self.wordCounts
+        }

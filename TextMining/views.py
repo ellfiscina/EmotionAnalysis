@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import PreProcess, POSTag, Frequency, UploadedFile, Analysis
+import json
 
 
 def index(request):
@@ -15,21 +16,23 @@ def upload(request):
         f = Frequency(p.filtered)
         a = Analysis(t.filtered)
 
-        token_analysis = {
-            'tokens': p.tokens,
-            'filtered': p.filtered,
-            'text': p.text,
-            'diversity': f.lexical_diversity(),
-            'frequent': f.most_frequent(20)
-        }
+        # token_analysis = {
+        #     'tokens': p.tokens,
+        #     'filtered': p.filtered,
+        #     'text': p.text,
+        #     'diversity': f.lexical_diversity(),
+        #     'frequent': f.most_frequent(20)
+        # }
 
-        emotion_analysis = {
-            'emotions': a.emotionCounts,
-            'words': a.wordCounts
-        }
+        # emotion_analysis = {
+        #     'emotions': a.emotionCounts,
+        #     'words': a.wordCounts
+        # }
 
         return render(request, 'TextMining/upload.html',
-                      {'info': token_analysis,
-                       'emotion': emotion_analysis})
+                      {'simple': json.dumps(p.to_dict()),
+                       'tagged': json.dumps(t.to_dict()),
+                       'frequency': f.to_dict(),
+                       'emotion': json.dumps(a.to_dict())})
 
     return HttpResponse("Failed")
