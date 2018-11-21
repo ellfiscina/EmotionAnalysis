@@ -1,4 +1,6 @@
 $(document).ready(function() {
   console.log("hello");
-  console.log(my_data);
+  console.log(simple);
+  console.log(tagged);
+  console.log(emotion);
 });

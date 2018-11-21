@@ -16,19 +16,6 @@ def upload(request):
         f = Frequency(p.filtered)
         a = Analysis(t.filtered)
 
-        # token_analysis = {
-        #     'tokens': p.tokens,
-        #     'filtered': p.filtered,
-        #     'text': p.text,
-        #     'diversity': f.lexical_diversity(),
-        #     'frequent': f.most_frequent(20)
-        # }
-
-        # emotion_analysis = {
-        #     'emotions': a.emotionCounts,
-        #     'words': a.wordCounts
-        # }
-
         return render(request, 'TextMining/upload.html',
                       {'simple': json.dumps(p.to_dict()),
                        'tagged': json.dumps(t.to_dict()),
