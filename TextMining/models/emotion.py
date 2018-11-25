@@ -20,11 +20,16 @@ class Analysis():
         self.wordCounts = self.generate_count()
 
     def generate_count(self):
-        emoCount = Counter()
-        for t in self.tokens:
-            if len(self.emoList[t]) > 0:
-                emoCount += Counter(self.emoList[t])
-        return emoCount
+        labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+                  'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
+
+        emoCount = {}
+
+        for l in labels:
+            emoCount[l] = Counter(self.emoList[l])
+
+        count = [{'name': key, 'value': val} for key, val in emoCount.items()]
+        return count
 
     def newList(self):
         emoList = defaultdict(list)

@@ -1,6 +1,11 @@
 $(document).ready(function() {
-  console.log("hello");
-  console.log(simple);
-  console.log(tagged);
-  console.log(emotion);
+  $('input:file').change(
+    function(){
+      if ($(this).val()) {
+        $('input:submit').attr('disabled',false);
+          // or, as has been pointed out elsewhere:
+          // $('input:submit').removeAttr('disabled');
+      }
+    }
+  );
 });

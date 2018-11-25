@@ -18,5 +18,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('textmining/', include('TextMining.urls')),
+    path('textmining/', include('TextMining.urls', namespace="TextMining")),
 ]

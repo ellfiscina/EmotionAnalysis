@@ -45,7 +45,7 @@ h6 {
   color: #95a5a6;
   padding-left: 3rem;
 }
-.main-wrapper .main-wrapper-content h1 {
+.main-wrapper .main-wrapper-content h1{
   color: #16a085;
   font-size: 2.5rem;
   padding-top: 10px;
@@ -55,6 +55,10 @@ h6 {
 }
 .main-wrapper .main-wrapper-content p strong {
   font-weight: 700;
+}
+.title{
+  color: #16a085;
+  font-weight: bold;
 }
 @media (min-width: 768px) {
   .main-wrapper {
