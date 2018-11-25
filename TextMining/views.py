@@ -17,7 +17,7 @@ def upload(request):
         a = Analysis(t.filtered)
 
         return render(request, 'TextMining/upload.html',
-                      {'simple': json.dumps(p.to_dict()),
+                      {'simple': p.to_dict(),
                        'tagged': json.dumps(t.to_dict()),
                        'frequency': f.to_dict(),
                        'emotion': json.dumps(a.to_dict())})

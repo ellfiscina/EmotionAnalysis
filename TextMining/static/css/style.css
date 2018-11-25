@@ -25,7 +25,7 @@ h5,
 h6 {
   font-weight: 700;
 }
-.index, .header{
+.index{
   background: url('../images/background.jpg') center center no-repeat scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -55,10 +55,6 @@ h6 {
 }
 .main-wrapper .main-wrapper-content p strong {
   font-weight: 700;
-}
-.title{
-  color: #16a085;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
   .main-wrapper {
@@ -113,8 +109,7 @@ footer .row{
   justify-content: space-between;
 }
 .header {
-  height: 50vh;
-  min-height: 300px;
+  height: 20vh;
 }
 
 .card {

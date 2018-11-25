@@ -25,7 +25,9 @@ class PreProcess:
     def to_dict(self):
         return {
             'tokens': self.tokens,
-            'filtered': self.filtered
+            'filtered': self.filtered,
+            'uniq_tokens': set(self.tokens),
+            'uniq_filtered': set(self.filtered)
         }
 
 
