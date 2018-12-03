@@ -28,8 +28,13 @@ class Analysis():
         for l in labels:
             emoCount[l] = Counter(self.emoList[l])
 
-        count = [{'name': key, 'value': val} for key, val in emoCount.items()]
-        return count
+        count = []
+        for key, val in emoCount.items():
+            count.append({
+                'name': key,
+                'value': [{'name': k, 'value': v} for k, v in val.items()]
+            })
+        return "var data = { 'name': 'emotion', 'children':" + str(count) + "}"
 
     def newList(self):
         emoList = defaultdict(list)
