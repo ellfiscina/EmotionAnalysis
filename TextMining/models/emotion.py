@@ -1,4 +1,5 @@
 import csv
+import numpy as np
 from collections import defaultdict, Counter
 
 
@@ -16,10 +17,11 @@ class Analysis():
     def __init__(self, tokens):
         self.tokens = tokens
         self.emoList = self.newList()
-        self.emotionCounts = self.generate_count_with_negation()
-        self.wordCounts = self.generate_count()
+        self.emotionCounts = self.generate_emotion_count()
+        self.wordCounts = self.generate_word_count()
+        self.commonArray = self.most_common_array()
 
-    def generate_count(self):
+    def generate_word_count(self):
         labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
                   'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
 
@@ -45,7 +47,7 @@ class Analysis():
                         emoList[e].append(w)
         return emoList
 
-    def generate_count_with_negation(self):
+    def generate_emotion_count(self):
         t = self.tokens
         wordList = self.wordList
         emoCount = Counter()
@@ -81,6 +83,25 @@ class Analysis():
             elif w == 'confiança':
                 newList.append('nojo')
         return newList
+
+    def most_common_array(self):
+        labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+                  'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
+    
+        emoCount = []
+
+        for l in labels:
+            # salva os 5 tokens mais comuns por emoção em uma lista
+            emoCount.append(Counter(self.emoList[l]).most_common(5)) 
+            
+        # aplaina a lista
+        flatList = [item for sublist in emoCount for item in sublist]
+
+        # ordena a lista do maior para o menor
+        sortedList = sorted(set(flatList), key=lambda tup: tup[1], reverse=True)
+        
+        # retorna os 5 tokens mais comuns
+        return [i[0] for i in sortedList[:5]]
 
     def to_dict(self):
         return {
