@@ -1,5 +1,5 @@
 import csv
-import numpy as np
+import copy
 from collections import defaultdict, Counter
 
 
@@ -25,18 +25,24 @@ class Analysis():
         labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
                   'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
 
+        dataset = []
+        temp_set = []
         emoCount = {}
+        wordCount = {}
 
         for l in labels:
-            emoCount[l] = Counter(self.emoList[l])
+            temp = Counter(self.emoList[l])
 
-        count = []
-        for key, val in emoCount.items():
-            count.append({
-                'name': key,
-                'value': [{'name': k, 'value': v} for k, v in val.items()]
-            })
-        return "var data = { 'name': 'emotion', 'children':" + str(count) + "}"
+            for key, val in temp.items():
+                wordCount['name'] = key
+                wordCount['value'] = val
+                temp_set.append(copy.copy(wordCount))
+
+            emoCount['name'] = l
+            emoCount['children'] = temp_set
+            dataset.append(copy.copy(emoCount))
+
+        return 'var data = { "name": "emotion", "children":' + str(dataset) + '}'
 
     def newList(self):
         emoList = defaultdict(list)
@@ -87,19 +93,19 @@ class Analysis():
     def most_common_array(self):
         labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
                   'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
-    
+
         emoCount = []
 
         for l in labels:
             # salva os 5 tokens mais comuns por emoção em uma lista
-            emoCount.append(Counter(self.emoList[l]).most_common(5)) 
-            
+            emoCount.append(Counter(self.emoList[l]).most_common(5))
+
         # aplaina a lista
         flatList = [item for sublist in emoCount for item in sublist]
 
         # ordena a lista do maior para o menor
         sortedList = sorted(set(flatList), key=lambda tup: tup[1], reverse=True)
-        
+
         # retorna os 5 tokens mais comuns
         return [i[0] for i in sortedList[:5]]
 
