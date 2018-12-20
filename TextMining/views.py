@@ -29,9 +29,7 @@ def word(request):
         
         return render(request, 'TextMining/word.html',
                       {'simple': p.to_dict(),
-                       'tagged': json.dumps(t.to_dict()),
                        'frequency': f.to_dict(),
-                       'emotion': a.wordCounts,
                        'img1': myFiles[0],
                        'img2': myFiles[1],
                        'img3': myFiles[2],
