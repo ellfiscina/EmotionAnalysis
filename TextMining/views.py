@@ -7,7 +7,7 @@ import six
 def index(request):
     return render(request, 'TextMining/index.html')
 
-def upload(request):
+def word(request):
     if request.method == 'POST':
         raw = UploadedFile(request.FILES['file'], str(request.FILES['file']))
         p = PreProcess(raw)
@@ -27,7 +27,7 @@ def upload(request):
           fig.savefig(tmp, format='svg', bbox_inches='tight')
           myFiles.append(tmp.getvalue())
         
-        return render(request, 'TextMining/upload.html',
+        return render(request, 'TextMining/word.html',
                       {'simple': p.to_dict(),
                        'tagged': json.dumps(t.to_dict()),
                        'frequency': f.to_dict(),

@@ -25,24 +25,26 @@ class Analysis():
         labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
                   'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
 
-        dataset = []
-        temp_set = []
-        emoCount = {}
-        wordCount = {}
+        array_out = []
 
         for l in labels:
+            array_in = []
+            dict_out = {}
+
             temp = Counter(self.emoList[l])
 
             for key, val in temp.items():
-                wordCount['name'] = key
-                wordCount['value'] = val
-                temp_set.append(copy.copy(wordCount))
+                dict_in = {}
+                dict_in['name'] = key
+                dict_in['value'] = val
+                array_in.append(copy.copy(dict_in))
 
-            emoCount['name'] = l
-            emoCount['children'] = temp_set
-            dataset.append(copy.copy(emoCount))
+            dict_out['name'] = l
+            dict_out['children'] = array_in
+            array_out.append(copy.copy(dict_out))
 
-        return '{ "name": "emotion", "children":' + str(dataset).replace('\'', '\"') + '}'
+        dataset = '{ "name": "emotion", "children":' + str(array_out).replace('\'', '\"') + '}'
+        return dataset
 
     def newList(self):
         emoList = defaultdict(list)

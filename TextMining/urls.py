@@ -6,6 +6,6 @@ app_name = 'TextMining'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('upload/', views.upload, name='upload'),
+    path('word/', views.word, name='word'),
     path('emotion/', views.emotion, name='emotion'),
 ]
