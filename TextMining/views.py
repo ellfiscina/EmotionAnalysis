@@ -17,6 +17,8 @@ def upload(request):
 
         l = LexicalDispersion()
 
+        request.session['emotion'] = a.wordCounts
+
         myFiles = []
 
         for w in a.commonArray:
@@ -24,13 +26,12 @@ def upload(request):
           tmp = six.StringIO()
           fig.savefig(tmp, format='svg', bbox_inches='tight')
           myFiles.append(tmp.getvalue())
-
-        print(len(myFiles))
+        
         return render(request, 'TextMining/upload.html',
                       {'simple': p.to_dict(),
                        'tagged': json.dumps(t.to_dict()),
                        'frequency': f.to_dict(),
-                       'emotion': json.dumps(a.to_dict()),
+                       'emotion': a.wordCounts,
                        'img1': myFiles[0],
                        'img2': myFiles[1],
                        'img3': myFiles[2],
@@ -39,3 +40,7 @@ def upload(request):
                        })
 
     return HttpResponse("Failed")
+
+def emotion(request):
+  emotion = request.session['emotion']
+  return render(request, 'TextMining/emotion.html', {'emotion': emotion})

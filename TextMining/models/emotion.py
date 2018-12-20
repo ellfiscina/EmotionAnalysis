@@ -42,7 +42,7 @@ class Analysis():
             emoCount['children'] = temp_set
             dataset.append(copy.copy(emoCount))
 
-        return 'var data = { "name": "emotion", "children":' + str(dataset) + '}'
+        return '{ "name": "emotion", "children":' + str(dataset).replace('\'', '\"') + '}'
 
     def newList(self):
         emoList = defaultdict(list)

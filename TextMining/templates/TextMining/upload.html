@@ -1,12 +1,6 @@
 {% extends 'TextMining/base.html' %}
 
 {% block content %}
-<script type="text/javascript">
-  var simple = {{ simple|safe }};
-  var tagged = {{ tagged|safe }};
-  var emotion = {{ emotion|safe }};
-</script>
-
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'TextMining:index' %}">Emotion Analysis</a>
@@ -19,10 +13,10 @@
             <a class="nav-link" href="{% url 'TextMining:index' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Emotion</a>
+            <a class="nav-link" href="{% url 'TextMining:upload' %}">Words</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Words</a>
+            <a class="nav-link" href="{% url 'TextMining:emotion' %}">Emotion</a>
           </li>
         </ul>
       </div>
