@@ -1,4 +1,4 @@
-media/!emolex_pt.csv
+media/*.txt
 __pycache__/*
 .*
 !/.gitignore
