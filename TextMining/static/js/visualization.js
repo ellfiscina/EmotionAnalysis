@@ -47,8 +47,6 @@ grandparent.append("text")
            .attr("y", 10 - margin.top)
            .attr("dy", ".75em");
 
-// main(data)
-
 function main(root) {
   initialize(root);
   accumulate(root);
@@ -117,7 +115,7 @@ function main(root) {
     });
 
     g.append("rect")
-     .attr("class", function(d){ 
+     .attr("class", function(d){
       return d.parent.name == 'emotion'
         ? "parent " + d.name
         : "parent " + d.parent.name;
@@ -185,7 +183,7 @@ function main(root) {
         .duration(100)
         .selectAll(".textdiv")
         .style("color", "rgba(0, 0, 0, 1)");
-      
+
       t1.selectAll(".foreignobj").call(foreign);
       t2.selectAll(".foreignobj").call(foreign);
 
@@ -247,7 +245,7 @@ function main(root) {
         .attr("width", d => x(d.x + d.dx) - x(d.x))
         .attr("height", d => y(d.y + d.dy) - y(d.y))
         .attr("fill", "#eeeeee");
-  } 
+  }
 
 
   function foreign(foreign){

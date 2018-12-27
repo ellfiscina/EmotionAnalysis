@@ -1,4 +1,4 @@
-media/*.txt
+media/TextMining/*.txt
 __pycache__/*
 .*
 !/.gitignore
