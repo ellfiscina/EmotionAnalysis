@@ -271,3 +271,10 @@ div.tooltip {
 .raiva{
   fill: #d64541;
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}

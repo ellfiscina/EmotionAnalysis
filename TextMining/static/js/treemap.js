@@ -1,16 +1,17 @@
-var margin = {top: 40, right: 0, bottom: 0, left: 0};
+var margin = { top: 40, right: 0, bottom: 0, left: 0 };
 var width = 1200;
 var height = 650;
-var formatLegend = d3.format(",%");
 var transitioning;
 
-var x = d3.scale.linear()
-    .domain([0, width])
-    .range([0, width]);
+var x = d3.scale
+          .linear()
+          .domain([0, width])
+          .range([0, width]);
 
-var y = d3.scale.linear()
-    .domain([0, height])
-    .range([0, height]);
+var y = d3.scale
+          .linear()
+          .domain([0, height])
+          .range([0, height]);
 
 var treemap = d3.layout.treemap()
                        .value(d => d.value)
@@ -21,13 +22,13 @@ var treemap = d3.layout.treemap()
 
 var svg = d3.select("#tree")
             .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.bottom + margin.top)
-            .style("margin-left", -margin.left + "px")
-            .style("margin.right", -margin.right + "px")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.bottom + margin.top)
+              .style("margin-left", -margin.left + "px")
+              .style("margin.right", -margin.right + "px")
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .style("shape-rendering", "crispEdges");
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+              .style("shape-rendering", "crispEdges");
 
 var div = d3.select("#tree")
             .append("div")
@@ -62,7 +63,7 @@ function main(root) {
 
   function accumulate(d) {
     return (d._children = d.children)
-        ? d.value = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
+        ? d.value = d.children.reduce((p, v) => p + accumulate(v), 0)
         : d.value;
   }
 
@@ -116,9 +117,9 @@ function main(root) {
 
     g.append("rect")
      .attr("class", function(d){
-      return d.parent.name == 'emotion'
-        ? "parent " + d.name
-        : "parent " + d.parent.name;
+        return d.parent.name == 'emotion'
+          ? "parent " + d.name
+          : "parent " + d.parent.name;
       })
      .call(rect)
      .append("title")
@@ -130,8 +131,13 @@ function main(root) {
      .attr("class","foreignobj")
      .append("xhtml:div")
      .attr("dy", ".75em")
-     .html(function(d) {  if(parseInt( x(d.x + d.dx) - x(d.x) ) >   50 ) return d.name + ": " + d.value; else return ""; })
-     .attr("class","textdiv");
+     .html(function(d) {
+        if(parseInt( x(d.x + d.dx) - x(d.x) ) >   50 )
+          return d.name + ": " + d.value;
+        else
+          return "";
+      })
+     .attr("class", "textdiv");
 
 
     function transition_in(d) {
@@ -247,7 +253,6 @@ function main(root) {
         .attr("fill", "#eeeeee");
   }
 
-
   function foreign(foreign){
     foreign.attr("x", d => x(d.x))
            .attr("y", d => y(d.y))
@@ -261,6 +266,7 @@ function main(root) {
       : d.name + ": "+ d.value;
   }
 }
+
 $(document).ready(function() {
  	data = JSON.parse(document.getElementById('hello-data').textContent)
 	main(JSON.parse(data))
