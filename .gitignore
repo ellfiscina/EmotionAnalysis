@@ -1,4 +1,5 @@
 media/TextMining/*.txt
-__pycache__/*
+TreeTagger/*
+*/__pycache__/*
 .*
 !/.gitignore
