@@ -1,6 +1,7 @@
 {% extends 'TextMining/base.html' %}
-
+{% load static %}
 {% block content %}
+
   <div class="main-wrapper index">
     <div class="container h-100">
       <div class="row h-100">
@@ -29,4 +30,8 @@
       </div>
     </div>
   </div>
+
+{% endblock %}
+{% block scripts %}
+  <script src="{% static 'js/index.js' %}"></script>
 {% endblock %}

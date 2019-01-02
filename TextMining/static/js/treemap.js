@@ -1,5 +1,5 @@
 var margin = { top: 40, right: 0, bottom: 0, left: 0 };
-var width = 1200;
+var width = 1000;
 var height = 650;
 var transitioning;
 
