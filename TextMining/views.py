@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import PreProcess, POSTag, Frequency, UploadedFile, Analysis, LexicalDispersion
+from .models import PreProcess, POSTag, Frequency, UploadedFile, Analysis
 import json
 
 def index(request):
@@ -13,8 +13,6 @@ def word(request):
         t = POSTag(raw)
         f = Frequency(p.filtered)
         a = Analysis(t.filtered)
-
-        l = LexicalDispersion()
 
         request.session['emotion'] = a.wordCounts
 
