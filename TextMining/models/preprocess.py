@@ -4,13 +4,19 @@ from treetagger import TreeTagger
 
 
 class PreProcess:
-    stopwords = nltk.corpus.stopwords.words('portuguese')
 
     def __init__(self, raw):
+        self.stopwords = self.extend_stopwords()
         self.raw = raw.lower()
         self.tokens = self.tokenize()
         self.filtered = self.filter(self.tokens)
         self.text = self.convert_to_text()
+
+    def extend_stopwords(self):
+        stopwords = nltk.corpus.stopwords.words('portuguese')
+        words = ['é', 'quê', 'aí', 'lá', 'ia', 'aqui', 'ah', 'oh', 'ali']
+        stopwords.extend(words)
+        return stopwords
 
     def tokenize(self):
         return nltk.word_tokenize(self.raw)
@@ -47,7 +53,8 @@ class POSTag(PreProcess):
     def tags_to_token(self):
         tokens = []
         for tag in self.tagged:
-            if bool(re.search(self.label, tag[1])) is False or tag[2] == '<unknown>':
+            if(bool(re.search(self.label, tag[1])) is False or
+               tag[2] == '<unknown>'):
                 tokens.append(tag[0].lower())
             else:
                 tokens.append(tag[2])

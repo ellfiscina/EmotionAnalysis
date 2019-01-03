@@ -1,3 +1,5 @@
+var margin = {top: 20, right: 10, bottom: 20, left: 10};
+
 function generateColorScale(n){
   var colors = paletteGenerator.generate(
     n, // Colors
@@ -17,7 +19,6 @@ function generateColorScale(n){
 }
 
 function drawDispersion(tokens, commonArray){
-  var margin = {top: 20, right: 10, bottom: 20, left: 10};
   var width = $("#dispersion-plot").width() - 50;
   var height = 350;
 
@@ -30,15 +31,13 @@ function drawDispersion(tokens, commonArray){
 
   var color = d3.scale.ordinal().range(generateColorScale(5));
 
-  var svg;
-
-  svg = d3.select("#dispersion-plot")
-          .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.bottom + margin.top)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + ", 0)")
-            .style("shape-rendering", "crispEdges");
+  var svg = d3.select("#dispersion-plot")
+              .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.bottom + margin.top)
+              .append("g")
+                .attr("transform", "translate(" + margin.left + ", 0)")
+                .style("shape-rendering", "crispEdges");
 
   svg.append("g")
      .attr("class", "x axis")
@@ -69,7 +68,29 @@ function drawDispersion(tokens, commonArray){
            .style("stroke", color(index));
   });
 
-  drawLegend();
+  var legend = d3.select("#dispersion-legend")
+                 .append("svg")
+                   .attr("width", width + margin.left + margin.right)
+                   .attr("height", 20)
+                 .selectAll(".legend")
+                 .data(commonArray)
+                 .enter()
+                 .append("g")
+                   .attr("class", "legend")
+                   .attr("transform", (d, i) => "translate(" + i * -100 + ", 0)");
+
+  legend.append("rect")
+        .attr("x", width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", (d,i) => color(i));
+
+  legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(d => d);
 
   function createDataset(tokens, WORD){
     var x = [];
@@ -82,36 +103,10 @@ function drawDispersion(tokens, commonArray){
 
     return x;
   };
-
-  function drawLegend(){
-    var legend = d3.select("#dispersion-legend")
-                   .append("svg")
-                     .attr("width", width + margin.left + margin.right)
-                     .attr("height", 20)
-                   .selectAll(".legend")
-                   .data(commonArray)
-                   .enter()
-                   .append("g")
-                     .attr("class", "legend")
-                     .attr("transform", (d, i) => "translate(" + i * -100 + ", 0)");
-
-    legend.append("rect")
-          .attr("x", width - 18)
-          .attr("width", 18)
-          .attr("height", 18)
-          .style("fill", (d,i) => color(i));
-
-    legend.append("text")
-          .attr("x", width - 24)
-          .attr("y", 9)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
-          .text(d => d);
-  }
 }
 
 function drawCloud(data){
-  var diameter = $("#bubble-plot").width();
+  var diameter = $("#cloud-plot").width() - margin.top;
   var color = d3.scale.ordinal().range(generateColorScale(50));
 
   var cloud = d3.layout
@@ -120,7 +115,7 @@ function drawCloud(data){
                 .size([diameter, diameter])
                 .padding(diameter/15);
 
-  var svg = d3.select("#bubble-plot")
+  var svg = d3.select("#cloud-plot")
               .append("svg")
               .attr("width", diameter)
               .attr("height", diameter)
@@ -129,19 +124,26 @@ function drawCloud(data){
   var nodes = cloud.nodes({children:data})
                    .filter(d => !d.children)
 
-  var tags = svg.append("g")
-                   .attr("transform", "translate(0,0)")
-                   .selectAll(".cloud")
-                   .data(nodes)
-                   .enter();
+  var g = svg.append("g")
+                .attr("transform", "translate(0,0)")
+                .selectAll(".cloud")
+                .data(nodes)
+                .enter();
 
-  tags.append("text")
-      .attr("x", d => d.x)
-      .attr("y", d => d.y + 5)
-      .attr("text-anchor", "middle")
-      .style('fill', d => color(d.value))
-      .style("font-size", d => d.r)
-      .text(d => d.text);
+  tags = g.append("text")
+          .attr("x", d => d.x)
+          .attr("y", d => d.y + 5)
+          .attr("text-anchor", "middle")
+          .style('fill', d => color(d.value))
+          .style("font-size", d => d.r)
+          .text(d => d.text);
+
+  tags.on("mouseover", function(d) {
+        d3.select(this).style("font-size", d => d.r + 10)
+      })
+      .on("mouseout", function() {
+        d3.select(this).style("font-size", d => d.r)
+      });
 }
 
 $(document).ready(function() {
