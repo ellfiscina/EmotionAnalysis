@@ -1,3 +1,21 @@
+function generateColorScale(n){
+  var colors = paletteGenerator.generate(
+    n, // Colors
+    function(color){ // This function filters valid colors
+      var hcl = color.hcl();
+      return hcl[0]>=0 && hcl[0]<=360
+        && hcl[1]>=30 && hcl[1]<=80
+        && hcl[2]>=35 && hcl[2]<=80;
+    },
+    false, // Using Force Vector instead of k-Means
+    50, // Steps (quality)
+    false, // Ultra precision
+    'Default' // Color distance type (colorblindness)
+  );
+  // Sort colors by differenciation first
+  return paletteGenerator.diffSort(colors, 'Default');
+}
+
 function drawDispersion(tokens, commonArray){
   var margin = {top: 20, right: 10, bottom: 20, left: 10};
   var width = $("#dispersion-plot").width() - 50;
@@ -10,7 +28,7 @@ function drawDispersion(tokens, commonArray){
 
   var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
-  var color = d3.scale.category10();
+  var color = d3.scale.ordinal().range(generateColorScale(5));
 
   var svg;
 
@@ -92,44 +110,41 @@ function drawDispersion(tokens, commonArray){
   }
 }
 
-function drawBubble(data){
+function drawCloud(data){
   var diameter = $("#bubble-plot").width();
-  var color = d3.scale.category20b();
+  var color = d3.scale.ordinal().range(generateColorScale(50));
 
-  var bubble = d3.layout
-                 .pack()
-                 .sort(null)
-                 .size([diameter, diameter])
-                 .padding(5);
+  var cloud = d3.layout
+                .pack()
+                .sort(null)
+                .size([diameter, diameter])
+                .padding(diameter/15);
 
   var svg = d3.select("#bubble-plot")
               .append("svg")
               .attr("width", diameter)
               .attr("height", diameter)
-              .attr("class", "bubble");
+              .attr("class", "cloud");
 
-  var nodes = bubble.nodes({children:data})
-                    .filter(d => !d.children)
-  var bubbles = svg.append("g")
+  var nodes = cloud.nodes({children:data})
+                   .filter(d => !d.children)
+
+  var tags = svg.append("g")
                    .attr("transform", "translate(0,0)")
-                   .selectAll(".bubble")
+                   .selectAll(".cloud")
                    .data(nodes)
                    .enter();
 
-  bubbles.append("circle")
-         .attr("r", d => d.r)
-         .attr("cx", d => d.x)
-         .attr("cy", d => d.y)
-         .style("fill", d => color(d.value))
-
-  bubbles.append("text")
-         .attr("x", d => d.x)
-         .attr("y", d => d.y + 5)
-         .attr("text-anchor", "middle")
-         .text(d => d.text)
+  tags.append("text")
+      .attr("x", d => d.x)
+      .attr("y", d => d.y + 5)
+      .attr("text-anchor", "middle")
+      .style('fill', d => color(d.value))
+      .style("font-size", d => d.r)
+      .text(d => d.text);
 }
 
 $(document).ready(function() {
-  drawBubble(mostFrequent);
+  drawCloud(mostFrequent);
 	drawDispersion(tokens, commonArray);
 });
