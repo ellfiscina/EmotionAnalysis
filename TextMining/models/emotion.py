@@ -6,6 +6,8 @@ from collections import defaultdict, Counter
 class Analysis():
     wordList = defaultdict(list)
     emotionList = defaultdict(list)
+    labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+              'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
 
     with open('media/TextMining/emolex_pt.csv', 'r') as f:
         reader = csv.DictReader(f)
@@ -22,12 +24,9 @@ class Analysis():
         self.commonArray = self.most_common_array()
 
     def generate_word_count(self):
-        labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
-                  'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
-
         array_out = []
 
-        for l in labels:
+        for l in self.labels:
             array_in = []
             dict_out = {}
 
@@ -43,7 +42,8 @@ class Analysis():
             dict_out['children'] = array_in
             array_out.append(copy.copy(dict_out))
 
-        dataset = '{ "name": "emotion", "children":' + str(array_out).replace('\'', '\"') + '}'
+        dataset = '{ "name": "emotion", "children":' + \
+            str(array_out).replace('\'', '\"') + '}'
         return dataset
 
     def newList(self):
@@ -59,6 +59,7 @@ class Analysis():
         t = self.tokens
         wordList = self.wordList
         emoCount = Counter()
+
         for i in range(len(t) - 1):
             if len(wordList[t[i]]) > 0:
                 if t[i - 1] == 'não':
@@ -93,12 +94,9 @@ class Analysis():
         return newList
 
     def most_common_array(self):
-        labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
-                  'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
-
         emoCount = []
 
-        for l in labels:
+        for l in self.labels:
             # salva os 5 tokens mais comuns por emoção em uma lista
             emoCount.append(Counter(self.emoList[l]).most_common(5))
 
@@ -106,13 +104,8 @@ class Analysis():
         flatList = [item for sublist in emoCount for item in sublist]
 
         # ordena a lista do maior para o menor
-        sortedList = sorted(set(flatList), key=lambda tup: tup[1], reverse=True)
+        sortedList = sorted(
+            set(flatList), key=lambda tup: tup[1], reverse=True)
 
         # retorna os 5 tokens mais comuns
         return [i[0] for i in sortedList[:5]]
-
-    def to_dict(self):
-        return {
-            'emotionCount': self.emotionCounts,
-            'wordCount': self.wordCounts
-        }

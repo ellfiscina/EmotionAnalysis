@@ -9,7 +9,7 @@ class PreProcess:
         self.stopwords = self.extend_stopwords()
         self.raw = raw.lower()
         self.tokens = self.tokenize()
-        self.filtered = self.filter(self.tokens)
+        self.filtered = self.filter()
         self.text = self.convert_to_text()
 
     def extend_stopwords(self):
@@ -21,8 +21,8 @@ class PreProcess:
     def tokenize(self):
         return nltk.word_tokenize(self.raw)
 
-    def filter(self, tokens):
-        return [t for t in tokens
+    def filter(self):
+        return [t for t in self.tokens
                 if t not in self.stopwords and t.isalpha()]
 
     def convert_to_text(self):
@@ -70,9 +70,3 @@ class POSTag(PreProcess):
             else:
                 words.append(tokens[i])
         return words
-
-    def to_dict(self):
-        return {
-            'tokens': self.tokens,
-            'filtered': self.filtered,
-        }
