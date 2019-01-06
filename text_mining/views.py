@@ -45,5 +45,10 @@ def word(request):
 def emotion(request):
     book_id = request.session['book_id']
     tokens = remove_words(Book.objects.get(id=book_id).tokens)
-    emotion = generate_word_count(newList(tokens))
+    if 'emotion' not in request.session:
+        emotion = generate_word_count(newList(tokens))
+        request.session['emotion'] = emotion
+    else:
+        emotion = request.session['emotion']
+
     return render(request, 'text_mining/emotion.html', {'emotion': emotion})

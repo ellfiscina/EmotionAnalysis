@@ -4,8 +4,8 @@ from django.contrib.postgres.fields import ArrayField
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    tokens = ArrayField(models.CharField(max_length=50))
-    tags = ArrayField(models.CharField(max_length=50))
+    tokens = ArrayField(models.CharField(max_length=100))
+    tags = ArrayField(models.CharField(max_length=100))
 
     def __str__(self):
         return self.title

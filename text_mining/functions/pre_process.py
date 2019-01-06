@@ -17,7 +17,7 @@ def tokenize(raw):
 def remove_words(tokens):
     stopwords = extend_stopwords()
     return [t for t in tokens
-            if t not in stopwords and t.isalpha()]
+            if t not in stopwords and t.isalpha() and len(t) > 2]
 
 
 # def convert_to_text(tokens):

@@ -1,23 +1,39 @@
 import os
 import re
+import PyPDF2
 from text_mining.models import Book
 from .pre_process import *
 
 
 def UploadedFile(file, filename):
-    media_path = 'text_mining/static/'
-    if not os.path.exists(media_path):
-        os.mkdir(media_path)
+    path = 'text_mining/static/' + filename
 
-    with open(media_path + filename, 'wb+') as destination:
+    with open(path, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
 
-    file = open(media_path + filename, 'r', encoding="utf8")
-    book = saveBook(file.read(), filename)
-    os.remove(media_path + filename)
+    opened_file = open(path, 'rb')
+
+    if bool(re.search(r"(\.txt)$", filename)):
+        file = opened_file.read().decode('utf-8')
+    elif bool(re.search(r"(\.pdf)$", filename)):
+        file = readPDF(opened_file)
+
+    book = saveBook(file, filename)
+    os.remove(path)
 
     return book
+
+
+def readPDF(file):
+    reader = PyPDF2.PdfFileReader(file)
+    num_pages = reader.getNumPages()
+    content = ''
+
+    for i in range(num_pages):
+        content += reader.getPage(i).extractText()
+
+    return content
 
 
 def saveBook(raw, filename):
