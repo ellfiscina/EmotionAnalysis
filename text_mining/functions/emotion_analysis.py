@@ -3,11 +3,24 @@ from collections import defaultdict, Counter
 from django.core.exceptions import ObjectDoesNotExist
 from text_mining.models import Word
 
-labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
-          'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
+
+def newList(tokens):
+    emoList = defaultdict(list)
+
+    for t in tokens:
+        try:
+            w = Word.objects.get(word=t)
+        except ObjectDoesNotExist:
+            continue
+
+        for e in w.emotion_set.all():
+            emoList[e.emotion].append(t)
+    return emoList
 
 
 def generate_word_count(emoList):
+    labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+              'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
     array_out = []
 
     for l in labels:
@@ -29,35 +42,3 @@ def generate_word_count(emoList):
     dataset = '{ "name": "emotion", "children":' + \
         str(array_out).replace('\'', '\"') + '}'
     return dataset
-
-
-def newList(tokens):
-    emoList = defaultdict(list)
-
-    for t in tokens:
-        try:
-            w = Word.objects.get(word=t)
-        except ObjectDoesNotExist:
-            continue
-
-        for e in w.emotion_set.all():
-            emoList[e.emotion].append(t)
-    return emoList
-
-
-def most_common_array(emoList):
-    emoCount = []
-
-    for l in labels:
-        # salva os 5 tokens mais comuns por emoção em uma lista
-        emoCount.append(Counter(emoList[l]).most_common(5))
-
-    # aplaina a lista
-    flatList = [item for sublist in emoCount for item in sublist]
-
-    # ordena a lista do maior para o menor
-    sortedList = sorted(
-        set(flatList), key=lambda tup: tup[1], reverse=True)
-
-    # retorna os 5 tokens mais comuns
-    return [i[0] for i in sortedList[:5]]

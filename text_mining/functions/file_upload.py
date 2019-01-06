@@ -38,7 +38,7 @@ def readPDF(file):
 
 def saveBook(raw, filename):
     tokens = tokenize(raw)
-    tagged = tags(raw)
+    tagged = tags_to_token(raw)
     book = Book(
         title=re.sub(r"\..+", "", filename),
         tokens=tokens,

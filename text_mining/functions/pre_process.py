@@ -5,7 +5,21 @@ from treetagger import TreeTagger
 
 def extend_stopwords():
     stopwords = nltk.corpus.stopwords.words('portuguese')
-    words = ['é', 'quê', 'aí', 'lá', 'ia', 'aqui', 'ah', 'oh', 'ali']
+    words = ['ali', 'agora', 'ainda', 'alguém', 'algum', 'alguma', 'alguns',
+             'algumas', 'ante', 'antes', 'após', 'através', 'cada', 'coisa',
+             'contra', 'contudo', 'daquele', 'daqueles', 'dessa', 'dessas',
+             'desse', 'desses', 'desta', 'destas', 'deste', 'deste', 'destes',
+             'dever', 'dizer', 'ser', 'enquanto', 'fazer', 'grande', 'la',
+             'lá', 'lo', 'mesma', 'mesmas', 'mesmos', 'muita', 'muitas',
+             'muitos', 'nenhum', 'nessa', 'nessas', 'nesta', 'nestas',
+             'ninguém', 'nunca', 'outra', 'outras', 'outro', 'outros',
+             'pequeno', 'per', 'perante', 'poder', 'pois', 'porém', 'porque',
+             'posso', 'pouco', 'poucos', 'primeiro', 'própria', 'ir',
+             'próprio', 'qual', 'quanto', 'ser', 'quantos', 'sempre', 'si',
+             'sob', 'sobre', 'talvez', 'tampouco', 'ter', 'ti', 'tido', 'toda',
+             'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas',
+             'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver']
+
     stopwords.extend(words)
     return stopwords
 
@@ -16,8 +30,7 @@ def tokenize(raw):
 
 def remove_words(tokens):
     stopwords = extend_stopwords()
-    return [t for t in tokens
-            if t not in stopwords and t.isalpha() and len(t) > 2]
+    return [t for t in tokens if t not in stopwords and t.isalpha() and len(t) > 2]
 
 
 # def convert_to_text(tokens):
@@ -42,13 +55,13 @@ def tags_to_token(raw):
     return tokens
 
 
-def negations(tokens):
-    words = []
-    for i in range(0, len(tokens)):
-        if tokens[i] == 'não' and tokens[i + 1].isalpha():
-            words.append(' '.join(tokens[i:i + 2]))
-        elif tokens[i - 1] == 'não':
-            pass
-        else:
-            words.append(tokens[i])
-    return words
+# def negations(tokens):
+#     words = []
+#     for i in range(0, len(tokens)):
+#         if tokens[i] == 'não' and tokens[i + 1].isalpha():
+#             words.append(' '.join(tokens[i:i + 2]))
+#         elif tokens[i - 1] == 'não':
+#             pass
+#         else:
+#             words.append(tokens[i])
+#     return words

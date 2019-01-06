@@ -3,6 +3,7 @@ from .functions import UploadedFile, LexicalDiversity, MostFrequent
 from .functions.pre_process import *
 from .functions.emotion_analysis import *
 from .models import Book
+from nltk import FreqDist
 import json
 
 
@@ -21,9 +22,16 @@ def word(request):
     tokens = book.tokens
     filtered = remove_words(tokens)
 
+    tags = book.tags
+    filtered_tags = remove_words(tags)
+
+    emoList = newList(filtered_tags)
     # import code; code.interact(local=dict(globals(), **locals()))
-    frequent = MostFrequent(filtered, 150)
-    commonArray = most_common_array(newList(filtered))
+    commonArray = MostFrequent(emoList, 5)
+    commonWords = MostFrequent(emoList, 150)
+
+    dist = FreqDist(filtered_tags)
+    frequent = [{"text": token, "value": dist[token]} for token in commonWords]
 
     diversity = {
         'qtd_tokens': len(tokens),
@@ -33,18 +41,19 @@ def word(request):
         'lexical': LexicalDiversity(filtered)
     }
 
-    return render(request,
-                  'text_mining/word.html',
-                  {'diversity': diversity,
-                   'tokens': json.dumps(tokens),
-                   'commonArray': json.dumps(commonArray),
-                   'frequent': frequent
-                   })
+    context = {
+        'diversity': diversity,
+        'tokens': json.dumps(tokens),
+        'commonArray': json.dumps(commonArray),
+        'frequent': frequent
+    }
+
+    return render(request, 'text_mining/word.html', context)
 
 
 def emotion(request):
     book_id = request.session['book_id']
-    tokens = remove_words(Book.objects.get(id=book_id).tokens)
+    tokens = remove_words(Book.objects.get(id=book_id).tags)
     if 'emotion' not in request.session:
         emotion = generate_word_count(newList(tokens))
         request.session['emotion'] = emotion
