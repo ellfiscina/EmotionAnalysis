@@ -36,6 +36,9 @@ def remove_words(tokens):
 # def convert_to_text(tokens):
 #     return nltk.Text(tokens)
 
+def sentences(raw):
+    return nltk.sent_tokenize(raw.lower())
+
 
 def tags(raw):
     tagger = TreeTagger(language='portuguese')

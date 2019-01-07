@@ -45,7 +45,8 @@ def word(request):
         'diversity': diversity,
         'tokens': json.dumps(tokens),
         'commonArray': json.dumps(commonArray),
-        'frequent': frequent
+        'frequent': frequent,
+        'emoList': json.dumps(emoList)
     }
 
     return render(request, 'text_mining/word.html', context)
