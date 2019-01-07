@@ -40,6 +40,10 @@ def sentences(raw):
     return nltk.sent_tokenize(raw.lower())
 
 
+def tokenize_sentence(sents):
+    return [tokenize(s) for s in sents]
+
+
 def tags(raw):
     tagger = TreeTagger(language='portuguese')
     return tagger.tag(raw.lower())

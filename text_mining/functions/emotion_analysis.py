@@ -42,3 +42,19 @@ def generate_word_count(emoList):
     dataset = '{ "name": "emotion", "children":' + \
         str(array_out).replace('\'', '\"') + '}'
     return dataset
+
+
+def generate_emotion_distribution(emoList, sent_list):
+    outter = {}
+    for emo in emoList:
+        inner = []
+
+        for sent in sent_list:
+            index = sent_list.index(sent)
+            count = 0
+            for t in sent:
+                if t in emoList[emo]:
+                    count += 1
+            inner.append([index, count])
+        outter[emo] = inner
+    return outter

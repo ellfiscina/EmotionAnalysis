@@ -147,13 +147,16 @@ function drawCloud(data){
 }
 
 
-function drawEmotionDispersion(tokens, emoList){
+function drawEmotionDispersion(data){
+  var labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+                'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
+
   var width = $("#dispersion-plot").width() - 50;
   var height = 450;
 
   var x = d3.scale
             .linear()
-            .domain([0, tokens.length])
+            .domain([0, data.length])
             .range([0, width]);
 
   var xAxis = d3.svg.axis().scale(x).orient("bottom");
@@ -179,23 +182,20 @@ function drawEmotionDispersion(tokens, emoList){
        .style("text-anchor", "end")
        .text("Posição");
 
-  for (var key in emoList) {
-    emoList[key].forEach(function(element, index, array){
-      dataset = createDataset(tokens, element);
-    });
-      svg.append("g")
-         .attr("class", key)
-         .selectAll("rect")
-           .data(dataset)
-           .enter()
-         .append("rect")
-           .attr("x", d=>x(d))
-           .attr("y", -60 * index + 240)
-           .attr("width", 1)
-           .attr("height", 50)
-           .attr("transform","translate(" + margin.right + "," + (height - margin.top) + "),scale(1,-1)")
-           .style("fill", color(index))
-           .style("stroke", color(index));
+  for (var key in data) {
+    svg.append("g")
+       .attr("class", key)
+       .selectAll("rect")
+         .data(data[key])
+         .enter()
+       .append("rect")
+         .attr("x", d => d[0])
+         .attr("y", -60 * labels.indexOf(key) + 240)
+         .attr("width", 1)
+         .attr("height", d => d[1] * 5)
+         .attr("transform","translate(" + margin.right + "," + (height - margin.top) + "),scale(1,-1)")
+         .style("fill", color(labels.indexOf(key)))
+         .style("stroke", color(labels.indexOf(key)));
   }
 
   var legend = d3.select("#dispersion-legend")
@@ -203,11 +203,11 @@ function drawEmotionDispersion(tokens, emoList){
                    .attr("width", width + margin.left + margin.right)
                    .attr("height", 20)
                  .selectAll(".legend")
-                 .data(emoList)
+                 .data(labels)
                  .enter()
                  .append("g")
                    .attr("class", "legend")
-                   .attr("transform", (d, i) => "translate(" + i * -100 + ", 0)");
+                   .attr("transform", (d, i) => "translate(" + i * -50 + ", 0)");
 
   legend.append("rect")
         .attr("x", width - 18)
@@ -221,21 +221,9 @@ function drawEmotionDispersion(tokens, emoList){
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(d => d);
-
-  function createDataset(tokens, WORD){
-    var x = [];
-
-    for (i = 0; i < tokens.length; i++) {
-      if(tokens[i] == WORD){
-        x.push(i);
-      }
-    }
-
-    return x;
-  };
 }
 $(document).ready(function() {
-  drawCloud(mostFrequent);
-	drawDispersion(tokens, commonArray);
-  // drawEmotionDispersion(tokens, emo)
+  //  drawCloud(mostFrequent);
+	// drawDispersion(tokens, commonArray);
+  drawEmotionDispersion(emotion)
 });

@@ -46,7 +46,7 @@ def word(request):
         'tokens': json.dumps(tokens),
         'commonArray': json.dumps(commonArray),
         'frequent': frequent,
-        'emoList': json.dumps(emoList)
+        'distribution': json.dumps(emotion_distribution)
     }
 
     return render(request, 'text_mining/word.html', context)
@@ -54,11 +54,27 @@ def word(request):
 
 def emotion(request):
     book_id = request.session['book_id']
-    tokens = remove_words(Book.objects.get(id=book_id).tags)
+    book = Book.objects.get(id=book_id)
+    sents = tokenize_sentence(book.sents)
+
     if 'emotion' not in request.session:
-        emotion = generate_word_count(newList(tokens))
+        emotion = generate_emotion_distribution(newList(tokens), sents)
         request.session['emotion'] = emotion
     else:
         emotion = request.session['emotion']
 
-    return render(request, 'text_mining/emotion.html', {'emotion': emotion})
+    return render(request,
+                  'text_mining/emotion.html',
+                  {'emotion': emotion})
+
+
+def treemap(request):
+    book_id = request.session['book_id']
+    tokens = remove_words(Book.objects.get(id=book_id).tags)
+    if 'tree' not in request.session:
+        tree = generate_word_count(newList(tokens))
+        request.session['tree'] = tree
+    else:
+        tree = request.session['tree']
+
+    return render(request, 'text_mining/treemap.html', {'emotion': tree})
