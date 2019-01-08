@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'text_mining:emotion' %}">Emoção</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'text_mining:treemap' %}">TreeMap</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -41,7 +44,7 @@
           </div>
         </div>
         <br>
-        <div class="card" style="height:55em">
+        <div class="card" style="height:35em">
           <div class="card-header">
             <h4 class="card-title">Distribuição Léxica <small>(Palavras mais Frequentes)</small></h4>
           </div>
@@ -72,7 +75,6 @@
     var tokens = {{ tokens | safe }};
     var commonArray = {{ commonArray | safe }};
     var mostFrequent = {{ frequent | safe }};
-    var emotion = {{ distribution | safe }};
   </script>
   <script src="{% static 'js/words_plot.js' %}"></script>
 {% endblock %}

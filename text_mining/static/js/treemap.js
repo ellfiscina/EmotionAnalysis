@@ -268,6 +268,6 @@ function main(root) {
 }
 
 $(document).ready(function() {
- 	data = JSON.parse(document.getElementById('hello-data').textContent)
+ 	data = JSON.parse(document.getElementById('data').textContent)
 	main(JSON.parse(data))
 });
