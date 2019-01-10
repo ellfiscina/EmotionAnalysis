@@ -272,43 +272,43 @@ div.tooltip {
   fill: #d64541;
 }
 
-rect.positivo {
+.dist-positivo {
   stroke: #e08283;
 }
 
-rect.negativo {
+.dist-negativo {
   stroke: #95a5a6;
 }
 
-rect.alegria {
+.dist-alegria {
   stroke: #f5d76e;
 }
 
-rect.tristeza {
+.dist-tristeza {
   stroke: #2c82c9;
 }
 
-rect.nojo {
+.dist-nojo {
   stroke: #be90d4;
 }
 
-rect.antecipação {
+.dist-antecipação {
   stroke: #f89406;
 }
 
-rect.medo {
+.dist-medo {
   stroke: #26a65b;
 }
 
-rect.surpresa {
+.dist-surpresa {
   stroke: #52b3d9;
 }
 
-rect.confiança {
+.dist-confiança {
   stroke: #87d37c;
 }
 
-rect.raiva {
+.dist-raiva {
   stroke: #d64541;
 }
 

@@ -38,7 +38,7 @@ function drawDispersion(data, key){
        .data(data[key])
        .enter()
      .append("rect")
-       .attr("class", key)
+       .attr("class", "dist-" + key)
        .attr("x", d => x(d[0]))
        .attr("y", 240)
        .attr("width", 1)

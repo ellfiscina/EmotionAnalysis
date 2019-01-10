@@ -1,6 +1,6 @@
 function main(root) {
   var margin = { top: 40, right: 0, bottom: 0, left: 0 };
-  var width = 1000;
+  var width = $("#tree-plot").width() - 50;
   var height = 650;
   var transitioning;
 
@@ -21,7 +21,7 @@ function main(root) {
                          .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
                          .round(false);
 
-  var svg = d3.select("#tree")
+  var svg = d3.select("#tree-plot")
               .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.bottom + margin.top)
@@ -31,7 +31,7 @@ function main(root) {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .style("shape-rendering", "crispEdges");
 
-  var div = d3.select("#tree")
+  var div = d3.select("#tree-plot")
               .append("div")
               .attr("class", "tooltip")
               .style("opacity", 0);
