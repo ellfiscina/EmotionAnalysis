@@ -13,6 +13,9 @@ def index(request):
 
 def word(request):
     if request.method == 'POST':
+        for key in list(request.session.keys()):
+            del request.session[key]
+        print(request.session.keys())
         book = UploadedFile(request.FILES['file'], str(request.FILES['file']))
         request.session['book_id'] = book.id
     else:
@@ -53,11 +56,21 @@ def word(request):
 
 def emotion(request):
     book_id = request.session['book_id']
-    tokens = remove_words(Book.objects.get(id=book_id).tags)
-    if 'emotion' not in request.session:
-        emotion = generate_word_count(newList(tokens))
-        request.session['emotion'] = emotion
-    else:
-        emotion = request.session['emotion']
+    book = Book.objects.get(id=book_id)
+    sents = join_sentences(tokenize_sentence(book.sents))
+    tokens = remove_words(book.tags)
 
-    return render(request, 'text_mining/emotion.html', {'emotion': emotion})
+    if 'dist' not in request.session:
+        dist = generate_emotion_distribution(newList(book.tags), sents)
+        tree = generate_word_count(newList(tokens))
+        request.session['dist'] = dist
+        request.session['tree'] = tree
+    else:
+        dist = request.session['dist']
+        tree = request.session['tree']
+
+    # import code; code.interact(local=dict(globals(), **locals()))
+    return render(request,
+                  'text_mining/emotion.html',
+                  {'dist': dist,
+                   'tree': tree})

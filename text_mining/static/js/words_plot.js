@@ -52,7 +52,6 @@ function drawDispersion(tokens, commonArray){
 
   commonArray.forEach(function(element, index, array){
     dataset = createDataset(tokens, element);
-
       svg.append("g")
          .attr("class", element)
          .selectAll("rect")
