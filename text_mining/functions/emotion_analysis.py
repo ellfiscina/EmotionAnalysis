@@ -46,9 +46,9 @@ def generate_word_count(emoList):
 
 def generate_emotion_distribution(emoList, sent_list):
     outter = {}
+
     for emo in emoList:
         inner = []
-
         for sent in sent_list:
             index = sent_list.index(sent)
             count = 0

@@ -13,6 +13,9 @@ def index(request):
 
 def word(request):
     if request.method == 'POST':
+        for key in list(request.session.keys()):
+            del request.session[key]
+        print(request.session.keys())
         book = UploadedFile(request.FILES['file'], str(request.FILES['file']))
         request.session['book_id'] = book.id
     else:
@@ -54,7 +57,7 @@ def word(request):
 def emotion(request):
     book_id = request.session['book_id']
     book = Book.objects.get(id=book_id)
-    sents = tokenize_sentence(book.sents)
+    sents = join_sentences(tokenize_sentence(book.sents))
     tokens = remove_words(book.tags)
 
     if 'dist' not in request.session:

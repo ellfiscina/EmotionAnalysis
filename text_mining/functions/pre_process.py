@@ -1,5 +1,6 @@
 import nltk
 import re
+import math
 from treetagger import TreeTagger
 
 
@@ -42,6 +43,27 @@ def sentences(raw):
 
 def tokenize_sentence(sents):
     return [tokenize(s) for s in sents]
+
+
+def join_sentences(sent_list):
+    mod = len(sent_list) % 100
+    out_range = math.ceil(len(sent_list) / 100)
+    out_list = []
+    start = 0
+    stop = 100
+    for i in range(out_range):
+        in_list = []
+
+        for j in range(start, stop):
+            in_list += sent_list[j]
+
+        if i == (out_range - 2):
+            stop += mod
+        else:
+            stop += 100
+        start += 100
+        out_list.append(in_list)
+    return out_list
 
 
 def tags(raw):

@@ -42,7 +42,7 @@ function drawDispersion(data, key){
        .attr("x", d => x(d[0]))
        .attr("y", 240)
        .attr("width", 1)
-       .attr("height", d => d[1] * 25)
+       .attr("height", d => d[1] * 2)
        .attr("transform","translate(" + margin.right + "," + (height - margin.top + 240) + "),scale(1,-1)");
 }
 
