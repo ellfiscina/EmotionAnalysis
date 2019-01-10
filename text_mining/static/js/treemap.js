@@ -1,54 +1,54 @@
-var margin = { top: 40, right: 0, bottom: 0, left: 0 };
-var width = 1000;
-var height = 650;
-var transitioning;
-
-var x = d3.scale
-          .linear()
-          .domain([0, width])
-          .range([0, width]);
-
-var y = d3.scale
-          .linear()
-          .domain([0, height])
-          .range([0, height]);
-
-var treemap = d3.layout.treemap()
-                       .value(d => d.value)
-                       .children((d, depth) => depth ? null : d._children)
-                       .sort((a, b) => a.value - b.value)
-                       .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
-                       .round(false);
-
-var svg = d3.select("#tree")
-            .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.bottom + margin.top)
-              .style("margin-left", -margin.left + "px")
-              .style("margin.right", -margin.right + "px")
-            .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-              .style("shape-rendering", "crispEdges");
-
-var div = d3.select("#tree")
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-var grandparent = svg.append("g")
-                     .attr("class", "grandparent");
-
-grandparent.append("rect")
-           .attr("y", -margin.top)
-           .attr("width", width)
-           .attr("height", margin.top);
-
-grandparent.append("text")
-           .attr("x", 6)
-           .attr("y", 10 - margin.top)
-           .attr("dy", ".75em");
-
 function main(root) {
+  var margin = { top: 40, right: 0, bottom: 0, left: 0 };
+  var width = 1000;
+  var height = 650;
+  var transitioning;
+
+  var x = d3.scale
+            .linear()
+            .domain([0, width])
+            .range([0, width]);
+
+  var y = d3.scale
+            .linear()
+            .domain([0, height])
+            .range([0, height]);
+
+  var treemap = d3.layout.treemap()
+                         .value(d => d.value)
+                         .children((d, depth) => depth ? null : d._children)
+                         .sort((a, b) => a.value - b.value)
+                         .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
+                         .round(false);
+
+  var svg = d3.select("#tree")
+              .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.bottom + margin.top)
+                .style("margin-left", -margin.left + "px")
+                .style("margin.right", -margin.right + "px")
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .style("shape-rendering", "crispEdges");
+
+  var div = d3.select("#tree")
+              .append("div")
+              .attr("class", "tooltip")
+              .style("opacity", 0);
+
+  var grandparent = svg.append("g")
+                       .attr("class", "grandparent");
+
+  grandparent.append("rect")
+             .attr("y", -margin.top)
+             .attr("width", width)
+             .attr("height", margin.top);
+
+  grandparent.append("text")
+             .attr("x", 6)
+             .attr("y", 10 - margin.top)
+             .attr("dy", ".75em");
+
   initialize(root);
   accumulate(root);
   layout(root);

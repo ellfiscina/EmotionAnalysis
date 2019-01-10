@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+  {{ tree | json_script:"data" }}
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'text_mining:index' %}">Emotion Analysis</a>
@@ -31,13 +33,78 @@
       <div class="col-sm-12 my-4">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Distribuição Léxica <small>(Palavras mais Frequentes)</small></h4>
+            <h4 class="card-title">Distribuição de Emoção ao Longo do Livro</h4>
           </div>
           <div class="card-body">
-            <div id="emotion-plot" style="width: 100%;"></div>
-          </div>
-          <div class="card-footer">
-            <div id="emotion-legend"></div>
+            <div class="container-fluid py-3 px-5">
+              <div class="row">
+                <div class="col-sm-10">
+                  <div id="emotion-plot" style="width: 100%;"></div>
+                </div>
+                <div class="col-sm-2 my-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="positivo" value="positivo" checked>
+                    <label class="form-check-label" for="positivo">
+                      Positivo
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="negativo" value="negativo">
+                    <label class="form-check-label" for="negativo">
+                      Negativo
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="alegria" value="alegria">
+                    <label class="form-check-label" for="alegria">
+                      Alegria
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="tristeza" value="tristeza">
+                    <label class="form-check-label" for="tristeza">
+                      Tristeza
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="nojo" value="nojo">
+                    <label class="form-check-label" for="nojo">
+                      Nojo
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="antecipação" value="antecipação">
+                    <label class="form-check-label" for="antecipação">
+                      Antecipação
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="medo" value="medo">
+                    <label class="form-check-label" for="medo">
+                      Medo
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="surpresa" value="surpresa">
+                    <label class="form-check-label" for="surpresa">
+                      Surpresa
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="confiança" value="confiança">
+                    <label class="form-check-label" for="confiança">
+                      Confiança
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="emotion" id="raiva" value="raiva">
+                    <label class="form-check-label" for="raiva">
+                      Raiva
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -50,4 +117,5 @@
     var dist = {{ dist | safe }};
   </script>
   <script src="{% static 'js/emo_dist.js' %}"></script>
+  <script src="{% static 'js/treemap.js' %}"></script>
 {% endblock %}

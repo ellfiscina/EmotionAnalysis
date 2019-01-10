@@ -5,7 +5,7 @@
   padding: 0;
 }
 
-html{
+html {
   height: 100%;
 }
 
@@ -32,7 +32,7 @@ h6 {
   font-weight: 700;
 }
 
-.index{
+.index {
   background: url('../images/background.jpg') center center no-repeat scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -43,20 +43,20 @@ h6 {
   justify-content: center;
 }
 
-.index .container-fluid{
+.index .container-fluid {
   padding: 0;
 }
 
-.main-wrapper .container{
+.main-wrapper .container {
   float: left;
 }
 
-.main-wrapper .main-wrapper-content{
+.main-wrapper .main-wrapper-content {
   color: #95a5a6;
   padding-left: 3rem;
 }
 
-.main-wrapper .main-wrapper-content h1{
+.main-wrapper .main-wrapper-content h1 {
   color: #16a085;
   font-size: 2.5rem;
   padding-top: 10px;
@@ -92,21 +92,21 @@ h6 {
 
 }
 
-.btn-primary{
+.btn-primary {
   background-color: #10ac84;
   border-color: #10ac84;
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
   background-color: #16A085;
   border-color: #16A085;
 }
 
-form{
+form {
   padding-bottom: 20px;
 }
 
-footer{
+footer {
   height: 10vh;
   background-color: #252525;
   border-top: 4px solid #16a085;
@@ -116,11 +116,11 @@ footer{
   justify-content: center;
 }
 
-footer p{
+footer p {
   font-size: small;
 }
 
-footer a{
+footer a {
   color:white;
   text-decoration:none;
   font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;
@@ -130,7 +130,7 @@ footer a{
   border-radius:3px
 }
 
-footer .row{
+footer .row {
   justify-content: space-between;
 }
 
@@ -232,44 +232,84 @@ div.tooltip {
   pointer-events: none;
 }
 
-.positivo{
+.positivo {
   fill: #e08283;
 }
 
-.negativo{
+.negativo {
   fill: #95a5a6;
 }
 
-.alegria{
+.alegria {
   fill: #f5d76e;
 }
 
-.tristeza{
+.tristeza {
   fill: #2c82c9;
 }
 
-.nojo{
+.nojo {
   fill: #be90d4;
 }
 
-.antecipação{
+.antecipação {
   fill: #f89406;
 }
 
-.medo{
+.medo {
   fill: #26a65b;
 }
 
-.surpresa{
+.surpresa {
   fill: #52b3d9;
 }
 
-.confiança{
+.confiança {
   fill: #87d37c;
 }
 
-.raiva{
+.raiva {
   fill: #d64541;
+}
+
+rect.positivo {
+  stroke: #e08283;
+}
+
+rect.negativo {
+  stroke: #95a5a6;
+}
+
+rect.alegria {
+  stroke: #f5d76e;
+}
+
+rect.tristeza {
+  stroke: #2c82c9;
+}
+
+rect.nojo {
+  stroke: #be90d4;
+}
+
+rect.antecipação {
+  stroke: #f89406;
+}
+
+rect.medo {
+  stroke: #26a65b;
+}
+
+rect.surpresa {
+  stroke: #52b3d9;
+}
+
+rect.confiança {
+  stroke: #87d37c;
+}
+
+rect.raiva {
+  stroke: #d64541;
 }
 
 .axis path,
@@ -277,4 +317,8 @@ div.tooltip {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+}
+
+ul {
+  list-style: none;
 }

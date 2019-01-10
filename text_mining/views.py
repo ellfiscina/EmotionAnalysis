@@ -55,26 +55,24 @@ def emotion(request):
     book_id = request.session['book_id']
     book = Book.objects.get(id=book_id)
     sents = tokenize_sentence(book.sents)
+    tokens = remove_words(book.tags)
 
     if 'dist' not in request.session:
         dist = generate_emotion_distribution(newList(book.tags), sents)
+        tree = generate_word_count(newList(tokens))
         request.session['dist'] = dist
+        request.session['tree'] = tree
     else:
         dist = request.session['dist']
+        tree = request.session['tree']
 
     # import code; code.interact(local=dict(globals(), **locals()))
     return render(request,
                   'text_mining/emotion.html',
-                  {'dist': dist})
+                  {'dist': dist,
+                   'tree': tree})
 
 
 def treemap(request):
-    book_id = request.session['book_id']
-    tokens = remove_words(Book.objects.get(id=book_id).tags)
-    if 'tree' not in request.session:
-        tree = generate_word_count(newList(tokens))
-        request.session['tree'] = tree
-    else:
-        tree = request.session['tree']
-
+    tree = request.session['tree']
     return render(request, 'text_mining/treemap.html', {'tree': tree})
