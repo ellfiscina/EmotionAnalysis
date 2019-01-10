@@ -71,8 +71,3 @@ def emotion(request):
                   'text_mining/emotion.html',
                   {'dist': dist,
                    'tree': tree})
-
-
-def treemap(request):
-    tree = request.session['tree']
-    return render(request, 'text_mining/treemap.html', {'tree': tree})

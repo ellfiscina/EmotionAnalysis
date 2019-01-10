@@ -10,7 +10,7 @@ function drawSVG(){
             .attr("height", height + margin.bottom + margin.top)
           .append("g")
             .attr("class", "outter")
-            .attr("transform", "translate(20, 0)")
+            .attr("transform", "translate(10, 0)")
             .style("shape-rendering", "crispEdges");
 }
 
