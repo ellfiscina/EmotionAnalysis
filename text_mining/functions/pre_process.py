@@ -1,7 +1,7 @@
 import nltk
 import re
 import math
-from treetagger import TreeTagger
+# from treetagger import TreeTagger
 
 
 def extend_stopwords():
@@ -66,22 +66,22 @@ def join_sentences(sent_list):
     return out_list
 
 
-def tags(raw):
-    tagger = TreeTagger(language='portuguese')
-    return tagger.tag(raw.lower())
+# def tags(raw):
+#     tagger = TreeTagger(language='portuguese')
+#     return tagger.tag(raw.lower())
 
 
-def tags_to_token(raw):
-    tagged = tags(raw)
-    label = re.compile('^A|^R|^NC.P|^NCF|^V')
-    tokens = []
-    for tag in tagged:
-        if(bool(re.search(label, tag[1])) is False or
-           tag[2] == '<unknown>'):
-            tokens.append(tag[0].lower())
-        else:
-            tokens.append(tag[2])
-    return tokens
+# def tags_to_token(raw):
+#     tagged = tags(raw)
+#     label = re.compile('^A|^R|^NC.P|^NCF|^V')
+#     tokens = []
+#     for tag in tagged:
+#         if(bool(re.search(label, tag[1])) is False or
+#            tag[2] == '<unknown>'):
+#             tokens.append(tag[0].lower())
+#         else:
+#             tokens.append(tag[2])
+#     return tokens
 
 
 # def negations(tokens):

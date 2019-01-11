@@ -40,8 +40,8 @@ def saveBook(raw, filename):
     book = Book(
         title=re.sub(r"\..+", "", filename),
         tokens=tokenize(raw),
-        tags=tags_to_token(raw),
         sents=sentences(raw)
+        # tags=tags_to_token(raw),
     )
     book.save()
     return book

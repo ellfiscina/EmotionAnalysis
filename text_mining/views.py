@@ -25,15 +25,15 @@ def word(request):
     tokens = book.tokens
     filtered = remove_words(tokens)
 
-    tags = book.tags
-    filtered_tags = remove_words(tags)
+    # tags = book.tags
+    # filtered_tags = remove_words(tags)
 
-    emoList = newList(filtered_tags)
+    emoList = newList(filtered)
     # import code; code.interact(local=dict(globals(), **locals()))
     commonArray = MostFrequent(emoList, 5)
     commonWords = MostFrequent(emoList, 150)
 
-    dist = FreqDist(filtered_tags)
+    dist = FreqDist(filtered)
     frequent = [{"text": token, "value": dist[token]} for token in commonWords]
 
     diversity = {
@@ -58,10 +58,10 @@ def emotion(request):
     book_id = request.session['book_id']
     book = Book.objects.get(id=book_id)
     sents = join_sentences(tokenize_sentence(book.sents))
-    tokens = remove_words(book.tags)
+    tokens = remove_words(book.tokens)
 
     if 'dist' not in request.session:
-        dist = generate_emotion_distribution(newList(book.tags), sents)
+        dist = generate_emotion_distribution(newList(tokens), sents)
         tree = generate_word_count(newList(tokens))
         request.session['dist'] = dist
         request.session['tree'] = tree
