@@ -1,5 +1,4 @@
 django
-gunicorn
 django-heroku
 nltk==3.4
 PyPDF2==1.26
