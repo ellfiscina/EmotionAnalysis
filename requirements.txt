@@ -1,0 +1,8 @@
+django
+gunicorn
+django-heroku
+nltk==3.4
+PyPDF2==1.26
+gunicorn==19.9
+requests==2.18
+/home/ellen/opt/TreeTagger/treetagger-python
