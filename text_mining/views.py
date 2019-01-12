@@ -5,6 +5,7 @@ from .functions.emotion_analysis import *
 from .models import Book
 from nltk import FreqDist
 import json
+import time
 
 
 def index(request):
@@ -54,14 +55,24 @@ def word(request):
 
 
 def emotion(request):
-    book_id = request.session['book_id']
-    book = Book.objects.get(id=book_id)
-    sents = join_sentences(tokenize_sentence(book.sents))
-    tokens = remove_words(book.tokens)
 
     if 'dist' not in request.session:
-        dist = generate_emotion_distribution(newList(tokens), sents)
-        tree = generate_word_count(newList(tokens))
+        t_i = time.time()
+        book_id = request.session['book_id']
+        book = Book.objects.get(id=book_id)
+        sents = join_sentences(tokenize_sentence(book.sents))
+        tokens = remove_words(book.tokens)
+        print('time1')
+        print(time.time() - t_i)
+        emoList = newList(tokens)
+        print('time2')
+        print(time.time() - t_i)
+        dist = generate_emotion_distribution(emoList, sents)
+        print('time3')
+        print(time.time() - t_i)
+        tree = generate_word_count(emoList)
+        print('time4')
+        print(time.time() - t_i)
         request.session['dist'] = dist
         request.session['tree'] = tree
     else:
