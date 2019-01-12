@@ -61,38 +61,38 @@ function main(root) {
     root.depth = 0;
   }
 
-  function accumulate(d) {
-    return (d._children = d.children)
-        ? d.value = d.children.reduce((p, v) => p + accumulate(v), 0)
-        : d.value;
+  function accumulate(data) {
+    return (data._children = data.children)
+        ? data.value = data.children.reduce((p, v) => p + accumulate(v), 0)
+        : data.value;
   }
 
-  function layout(d) {
-    if (d._children) {
-      treemap.nodes({_children: d._children});
-      d._children.forEach(function(c) {
-        c.x = d.x + c.x * d.dx;
-        c.y = d.y + c.y * d.dy;
-        c.dx *= d.dx;
-        c.dy *= d.dy;
-        c.parent = d;
+  function layout(data) {
+    if (data._children) {
+      treemap.nodes({_children: data._children});
+      data._children.forEach(function(c) {
+        c.x = data.x + c.x * data.dx;
+        c.y = data.y + c.y * data.dy;
+        c.dx *= data.dx;
+        c.dy *= data.dy;
+        c.parent = data;
         layout(c);
       });
     }
   }
 
-  function display(d) {
-    grandparent.datum(d.parent)
+  function display(data) {
+    grandparent.datum(data.parent)
                .on("click", transition_out)
                .select("text")
-               .text(name(d));
+               .text(data.name + ": "+ data.value + " palavras");
 
     var g1 = svg.insert("g", ".grandparent")
-                .datum(d)
+                .datum(data)
                 .attr("class", "depth");
 
     var g = g1.selectAll("g")
-              .data(d._children)
+              .data(data._children)
               .enter()
               .append("g");
 
@@ -105,7 +105,10 @@ function main(root) {
            .duration(50)
            .style("opacity", 1)
            .style("height", (d.desc!=null ? (Math.ceil(d.desc.length/75)*19+107) + "px" : "107px"));
-        div.html("<br/>"+d.name + "<br/> <br/>" + d.value)
+        div.html(
+          "<br/><br/>"+ d.name.toUpperCase() + "<br/> <br/>" + d.value +
+          " palavras (" + percentage(d.value, data.value) + "%)"
+          )
            .style("left", Math.max(Math.min((d3.event.pageX - 350),430),20) + "px")
            .style("top", Math.min((d3.event.pageY-70),200) + "px");
         })
@@ -117,14 +120,13 @@ function main(root) {
 
     g.append("rect")
      .attr("class", function(d){
-        return d.parent.name == 'emotion'
-          ? "parent " + d.name
-          : "parent " + d.parent.name;
+        return d.parent.name == 'Emoção'
+          ? "parent " + d.name.toLowerCase()
+          : "parent " + d.parent.name.toLowerCase();
       })
      .call(rect)
      .append("title")
      .text(d => d.value);
-
 
     g.append("foreignObject")
      .call(rect)
@@ -133,15 +135,15 @@ function main(root) {
      .attr("dy", ".75em")
      .html(function(d) {
         if(parseInt( x(d.x + d.dx) - x(d.x) ) >   50 )
-          return d.name + ": " + d.value;
+          return d.name + ": "+ percentage(d.value, data.value) + "%";
         else
           return "";
       })
      .attr("class", "textdiv");
 
 
-    function transition_in(d) {
-      if (transitioning || !d) return;
+    function transition_in(data) {
+      if (transitioning || !data) return;
       transitioning = true;
 
       arrow = grandparent.append("text")
@@ -163,12 +165,12 @@ function main(root) {
        .attr("class", "child")
        .call(rect);
 
-      var g2 = display(d);
+      var g2 = display(data);
       var t1 = g1.transition().duration(750);
       var t2 = g2.transition().duration(750);
 
-      x.domain([d.x, d.x + d.dx]);
-      y.domain([d.y, d.y + d.dy]);
+      x.domain([data.x, data.x + data.dx]);
+      y.domain([data.y, data.y + data.dy]);
 
       svg.style("shape-rendering", null);
 
@@ -200,20 +202,20 @@ function main(root) {
     }
 
 
-    function transition_out(d) {
-      if (transitioning || !d) return;
+    function transition_out(data) {
+      if (transitioning || !data) return;
       transitioning = true;
 
       arrow.transition()
            .duration(500)
            .style("opacity", 0  );
 
-      var g2 = display(d),
+      var g2 = display(data),
           t1 = g1.transition().duration(750),
           t2 = g2.transition().duration(750);
 
-      x.domain([d.x, d.x + d.dx]);
-      y.domain([d.y, d.y + d.dy]);
+      x.domain([data.x, data.x + data.dx]);
+      y.domain([data.y, data.y + data.dy]);
 
       svg.style("shape-rendering", null);
 
@@ -260,10 +262,12 @@ function main(root) {
            .attr("height", d => y(d.y + d.dy) - y(d.y));
   }
 
-  function name(d) {
-    return d.parent
-      ? d.name + ": "+ d.value
-      : d.name + ": "+ d.value;
+  function name(data) {
+    return data.name + ": "+ data.value;
+  }
+
+  function percentage(value, total) {
+    return Math.round(value/total * 100) ;
   }
 }
 

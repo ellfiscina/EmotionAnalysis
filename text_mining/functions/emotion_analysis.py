@@ -35,22 +35,22 @@ def generate_word_count(emoList):
             dict_in['value'] = val
             array_in.append(copy.copy(dict_in))
 
-        dict_out['name'] = l
+        dict_out['name'] = l.capitalize()
         dict_out['children'] = array_in
         array_out.append(copy.copy(dict_out))
 
-    dataset = '{ "name": "emotion", "children":' + \
+    dataset = '{ "name": "Emoção", "children":' + \
         str(array_out).replace('\'', '\"') + '}'
     return dataset
 
 
-def generate_emotion_distribution(emoList, sent_list):
+def generate_emotion_distribution(emoList, sentList):
     outter = {}
 
     for emo in emoList:
         inner = []
-        for sent in sent_list:
-            index = sent_list.index(sent)
+        for sent in sentList:
+            index = sentList.index(sent)
             count = 0
             for t in sent:
                 if t in emoList[emo]:

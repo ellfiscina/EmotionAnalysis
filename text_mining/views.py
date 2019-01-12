@@ -6,7 +6,6 @@ from .models import Book
 from nltk import FreqDist
 import json
 import django_rq
-import time
 
 queue = django_rq.get_queue('high', is_async=True, default_timeout=360)
 
