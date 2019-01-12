@@ -37,13 +37,15 @@
             <p class="card-text"> Quantidade de Palavras Únicas Após o Filtro: {{ diversity.qtd_uniq_filtered }} </p>
           </div>
           <div class="card-footer">
-            <p class="card-text"> Diversidade Léxica: {{ diversity.lexical }}% </p>
+            <a class="modal-link float-right" id="word-freq" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <p class="card-text"> Diversidade Lexical: {{ diversity.lexical }}% </p>
           </div>
         </div>
         <br>
         <div class="card" style="height:35em">
           <div class="card-header">
-            <h4 class="card-title">Distribuição Léxica <small>(Palavras mais Frequentes)</small></h4>
+            <a class="modal-link float-right" id="dist-lex" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">Distribuição Lexical <small>(Palavras mais Frequentes)</small></h4>
           </div>
           <div class="card-body">
             <div id="dispersion-plot" style="width: 100%;"></div>
@@ -56,7 +58,8 @@
       <div class="col-sm-6 my-4">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Tag Cloud</h4>
+            <a class="modal-link float-right" id="tag-cloud" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">Nuvem de Tags</h4>
           </div>
           <div class="card-body">
             <div id="cloud-plot" style="width: 100%;"></div>
@@ -65,7 +68,6 @@
       </div>
     </div>
   </div>
-
 {% endblock %}
 {% block scripts %}
   <script>

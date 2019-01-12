@@ -23,20 +23,17 @@ def word(request):
 
     tokens = book.tokens
     filtered = remove_words(tokens)
-    print('part 1')
+
     # tags = book.tags
     # filtered_tags = remove_words(tags)
 
     emoList = newList(filtered)
-    print('part 2')
     # import code; code.interact(local=dict(globals(), **locals()))
     commonArray = MostFrequent(emoList, 5)
     commonWords = MostFrequent(emoList, 150)
-    print('part 3')
 
     dist = FreqDist(filtered)
     frequent = [{"text": token, "value": dist[token]} for token in commonWords]
-    print('part 4')
 
     diversity = {
         'qtd_tokens': len(tokens),
@@ -45,7 +42,6 @@ def word(request):
         'qtd_uniq_filtered': len(set(filtered)),
         'lexical': LexicalDiversity(filtered)
     }
-    print('part 5')
 
     context = {
         'diversity': diversity,

@@ -145,11 +145,11 @@ function main(root) {
       transitioning = true;
 
       arrow = grandparent.append("text")
-                         .attr('font-family', 'FontAwesome')
-                         .attr("class", "svg-icon")
-                         .attr("x", 915)
+                         .attr('font-family', 'Font Awesome\ 5 Free')
+                         .attr("class", "fa fas")
+                         .attr("x", width - 50)
                          .attr("y", 25 - margin.top)
-                         .text("\uF106")
+                         .text("\uf106")
                          .style("opacity", 0);
 
       arrow.transition()

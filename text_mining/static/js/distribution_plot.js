@@ -33,7 +33,7 @@ function drawDispersion(data){
        .attr("x", width/2)
        .attr("y", 46)
        .style("text-anchor", "end")
-       .text("Posição");
+       .text("Trecho (100 sentenças)");
 
   for (var key in data) {
     svg.append("g")
