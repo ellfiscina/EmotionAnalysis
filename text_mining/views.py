@@ -27,10 +27,10 @@ def word(request):
     # tags = book.tags
     # filtered_tags = remove_words(tags)
 
-    emoList = newList(filtered)
+    # emoList = newList(filtered)
     # import code; code.interact(local=dict(globals(), **locals()))
-    commonArray = MostFrequent(emoList, 5)
-    commonWords = MostFrequent(emoList, 150)
+    commonArray = MostFrequent(filtered, 5)
+    commonWords = MostFrequent(filtered, 150)
 
     dist = FreqDist(filtered)
     frequent = [{"text": token, "value": dist[token]} for token in commonWords]
