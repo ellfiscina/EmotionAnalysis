@@ -16,5 +16,6 @@ Including another URLconf
 from django.urls import include, path
 
 urlpatterns = [
-    path('textmining/', include('text_mining.urls', namespace="text_mining")),
+    path('', include('text_mining.urls', namespace="text_mining")),
+    path('django-rq/', include('django_rq.urls'))
 ]

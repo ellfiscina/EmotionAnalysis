@@ -5,7 +5,10 @@ from .functions.emotion_analysis import *
 from .models import Book
 from nltk import FreqDist
 import json
+import django_rq
 import time
+
+queue = django_rq.get_queue('high', is_async=True, default_timeout=360)
 
 
 def index(request):
@@ -25,11 +28,13 @@ def word(request):
     tokens = book.tokens
     filtered = remove_words(tokens)
 
+    job = queue.enqueue(newList, filtered)
+    request.session['job_id'] = job.id
+    # import code; code.interact(local=dict(globals(), **locals()))
     # tags = book.tags
     # filtered_tags = remove_words(tags)
 
     # emoList = newList(filtered)
-    # import code; code.interact(local=dict(globals(), **locals()))
     commonArray = MostFrequent(filtered, 5)
     commonWords = MostFrequent(filtered, 150)
 
@@ -57,29 +62,23 @@ def word(request):
 def emotion(request):
 
     if 'dist' not in request.session:
-        t_i = time.time()
+        job = queue.fetch_job(request.session['job_id'])
+        # import code; code.interact(local=dict(globals(), **locals()))
         book_id = request.session['book_id']
         book = Book.objects.get(id=book_id)
         sents = join_sentences(tokenize_sentence(book.sents))
-        tokens = remove_words(book.tokens)
-        print('time1')
-        print(time.time() - t_i)
-        emoList = newList(tokens)
-        print('time2')
-        print(time.time() - t_i)
+        # tokens = remove_words(book.tokens)
+
+        emoList = job.result
+        job.delete()
         dist = generate_emotion_distribution(emoList, sents)
-        print('time3')
-        print(time.time() - t_i)
         tree = generate_word_count(emoList)
-        print('time4')
-        print(time.time() - t_i)
         request.session['dist'] = dist
         request.session['tree'] = tree
     else:
         dist = request.session['dist']
         tree = request.session['tree']
 
-    # import code; code.interact(local=dict(globals(), **locals()))
     return render(request,
                   'text_mining/emotion.html',
                   {'dist': dist,
