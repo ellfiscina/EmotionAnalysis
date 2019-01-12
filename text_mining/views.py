@@ -68,9 +68,9 @@ def emotion(request):
         book = Book.objects.get(id=book_id)
         sents = join_sentences(tokenize_sentence(book.sents))
         # tokens = remove_words(book.tokens)
-
         emoList = job.result
         job.delete()
+
         dist = generate_emotion_distribution(emoList, sents)
         tree = generate_word_count(emoList)
         request.session['dist'] = dist
