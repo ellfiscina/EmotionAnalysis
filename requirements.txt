@@ -4,3 +4,4 @@ nltk==3.4
 PyPDF2==1.26
 gunicorn==19.9
 requests==2.18
+psycopg2-binary

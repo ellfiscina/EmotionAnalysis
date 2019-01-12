@@ -5,6 +5,7 @@ from .functions.emotion_analysis import *
 from .models import Book
 from nltk import FreqDist
 import json
+import time
 
 
 def index(request):
@@ -12,6 +13,7 @@ def index(request):
 
 
 def word(request):
+    t_i = time.time()
     if request.method == 'POST':
         for key in list(request.session.keys()):
             del request.session[key]
@@ -50,7 +52,8 @@ def word(request):
         'commonArray': json.dumps(commonArray),
         'frequent': frequent
     }
-
+    t_o = time.time()
+    print(t_o - t_i)
     return render(request, 'text_mining/word.html', context)
 
 
