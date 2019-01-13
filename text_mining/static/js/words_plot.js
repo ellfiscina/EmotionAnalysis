@@ -25,9 +25,9 @@ function drawDispersion(tokens, commonArray){
   var x = d3.scale
             .linear()
             .domain([0, tokens.length])
-            .range([0, width]);
+            .range([0, (width - margin.top)]);
 
-  var xAxis = d3.svg.axis().scale(x).orient("bottom");
+  var xAxis = d3.svg.axis().scale(x).ticks(5).orient("bottom");
 
   var color = d3.scale.ordinal().range(generateColorScale(5));
 
@@ -41,7 +41,8 @@ function drawDispersion(tokens, commonArray){
 
   svg.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(" + margin.right + "," + (height - margin.top) + ")")
+     .attr("transform", "translate(" + margin.right + "," +
+           (height - margin.top) + ")")
      .call(xAxis)
      .append("text")
        .attr("class", "label")
@@ -62,7 +63,8 @@ function drawDispersion(tokens, commonArray){
            .attr("y", -60 * index + 240)
            .attr("width", 1)
            .attr("height", 50)
-           .attr("transform","translate(" + margin.right + "," + (height - margin.top) + "),scale(1,-1)")
+           .attr("transform","translate(" + margin.right + "," +
+                 (height - margin.top) + "),scale(1,-1)")
            .style("fill", color(index))
            .style("stroke", color(index));
   });
