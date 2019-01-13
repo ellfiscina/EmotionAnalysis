@@ -234,42 +234,52 @@ div.tooltip {
 
 .positivo {
   fill: #e08283;
+  color: #e08283;
 }
 
 .negativo {
   fill: #95a5a6;
+  color: #95a5a6;
 }
 
 .alegria {
   fill: #f5d76e;
+  color: #f5d76e;
 }
 
 .tristeza {
   fill: #2c82c9;
+  color: #2c82c9;
 }
 
 .nojo {
   fill: #be90d4;
+  color: #be90d4;
 }
 
 .antecipação {
   fill: #f89406;
+  color: #f89406;
 }
 
 .medo {
   fill: #26a65b;
+  color: #26a65b;
 }
 
 .surpresa {
   fill: #52b3d9;
+  color: #52b3d9;
 }
 
 .confiança {
   fill: #87d37c;
+  color: #87d37c;
 }
 
 .raiva {
   fill: #d64541;
+  color: #d64541;
 }
 
 .dist-positivo {
@@ -319,6 +329,14 @@ div.tooltip {
   shape-rendering: crispEdges;
 }
 
+.axis text.label {
+  font-size: medium;
+}
+
 ul {
   list-style: none;
+}
+
+.form-check-label {
+  font-weight: bold;
 }

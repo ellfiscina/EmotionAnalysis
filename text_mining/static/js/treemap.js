@@ -120,7 +120,7 @@ function main(root) {
 
     g.append("rect")
      .attr("class", function(d){
-        return d.parent.name == 'Emoção'
+        return d.parent.name == 'Emoções'
           ? "parent " + d.name.toLowerCase()
           : "parent " + d.parent.name.toLowerCase();
       })
@@ -262,12 +262,8 @@ function main(root) {
            .attr("height", d => y(d.y + d.dy) - y(d.y));
   }
 
-  function name(data) {
-    return data.name + ": "+ data.value;
-  }
-
   function percentage(value, total) {
-    return Math.round(value/total * 100) ;
+    return +(value/total * 100).toFixed(2);
   }
 }
 

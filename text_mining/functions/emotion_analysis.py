@@ -39,7 +39,7 @@ def generate_word_count(emoList):
         dict_out['children'] = array_in
         array_out.append(copy.copy(dict_out))
 
-    dataset = '{ "name": "Emoção", "children":' + \
+    dataset = '{ "name": "Emoções", "children":' + \
         str(array_out).replace('\'', '\"') + '}'
     return dataset
 

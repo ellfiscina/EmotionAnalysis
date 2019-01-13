@@ -6,6 +6,7 @@ from .models import Book
 from nltk import FreqDist
 import json
 import django_rq
+import time
 
 queue = django_rq.get_queue('high', is_async=True, default_timeout=360)
 
@@ -18,6 +19,7 @@ def word(request):
     if request.method == 'POST':
         for key in list(request.session.keys()):
             del request.session[key]
+
         book = UploadedFile(request.FILES['file'], str(request.FILES['file']))
         request.session['book_id'] = book.id
     else:
@@ -27,8 +29,10 @@ def word(request):
     tokens = book.tokens
     filtered = remove_words(tokens)
 
-    job = queue.enqueue(newList, filtered)
-    request.session['job_id'] = job.id
+    if 'job_id' not in request.session:
+        job = queue.enqueue(newList, filtered)
+        request.session['job_id'] = job.id
+        time.sleep(5)
     # import code; code.interact(local=dict(globals(), **locals()))
     # tags = book.tags
     # filtered_tags = remove_words(tags)
@@ -62,11 +66,14 @@ def emotion(request):
 
     if 'dist' not in request.session:
         job = queue.fetch_job(request.session['job_id'])
-        # import code; code.interact(local=dict(globals(), **locals()))
+
         book_id = request.session['book_id']
         book = Book.objects.get(id=book_id)
         sents = join_sentences(tokenize_sentence(book.sents))
-        # tokens = remove_words(book.tokens)
+
+        while job.result is None:
+            pass
+
         emoList = job.result
         job.delete()
 

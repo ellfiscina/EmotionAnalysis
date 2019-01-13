@@ -1,7 +1,8 @@
-var margin = {top: 20, right: 20, bottom: 20, left: 20};
+var margin = {top: 20, right: 25, bottom: 15, left: 25};
 var width = $("#emotion-plot").width() - 50;
-var height = 250;
+var height = 300;
 var distSvg;
+var x, y;
 
 function drawSVG(){
   distSvg = d3.select("#emotion-plot")
@@ -14,17 +15,15 @@ function drawSVG(){
             .style("shape-rendering", "crispEdges");
 }
 
-function drawDispersion(data, key){
-  var x = d3.scale
-            .linear()
-            .domain([0, data[key].length])
-            .range([0, width]);
-
+function drawXAxis(){
   var xAxis = d3.svg.axis().scale(x).orient("bottom");
+  var yAxis = d3.svg.axis().scale(y).orient("left");
 
   distSvg.append("g")
        .attr("class", "x axis")
-       .attr("transform", "translate(" + margin.right + "," + (height - margin.top) + ")")
+       .attr("transform", "translate(" + (margin.right + margin.left) + "," +
+             (height - margin.bottom) + ")")
+       .style("font-size", "smaller")
      .call(xAxis)
      .append("text")
        .attr("class", "label")
@@ -34,34 +33,74 @@ function drawDispersion(data, key){
        .text("Posição");
 
   distSvg.append("g")
-     .selectAll("rect")
-       .data(data[key])
-       .enter()
-     .append("rect")
-       .attr("class", "dist-" + key)
-       .attr("x", d => x(d[0]))
-       .attr("y", 240)
-       .attr("width", 1)
-       .attr("height", d => d[1] * 2)
-       .attr("transform","translate(" + margin.right + "," + (height - margin.top + 240) + "),scale(1,-1)");
+       .attr("class", "y axis")
+       .attr("transform", "translate(" + (margin.right + margin.left) + ", 5)")
+       .style("font-size", "smaller")
+     .call(yAxis)
+     .append("text")
+       .attr("class", "label")
+       .attr("x", -30)
+       .attr("y", height/2)
+       .style("text-anchor", "end")
+       .text("Qtd");
 }
 
-function cleanSVG(){
-  distSvg.selectAll("*").remove();
+function drawDispersion(data, key){
+  line = d3.svg.line()
+           .defined(d => !isNaN(d[1]))
+           .x(d => x(d[0]))
+           .y(d => y(d[1]))
+
+  distSvg.append("g")
+         .attr("transform", "translate(" + (margin.right + margin.left) + ", 0)")
+         .append("path")
+         .datum(data[key])
+         .attr("class", "dist-" + key)
+         .attr("fill", "none")
+         .attr("stroke-width", 1.5)
+         .attr("stroke-linejoin", "round")
+         .attr("stroke-linecap", "round")
+         .attr("d", line);
+}
+
+function cleanSVG(key){
+  distSvg.selectAll(".dist-" + key).remove();
+}
+
+function maxValue(data){
+  var maximum = []
+  for(var key in data) {
+    maximum.push(d3.max(data[key], d => d[1]))
+  }
+  return maximum
 }
 
 $(document).ready(function(){
+  x = d3.scale
+        .linear()
+        .domain([0, dist["positivo"].length])
+        .range([0, width]);
+
+  y = d3.scale
+        .linear()
+        .domain([0, d3.max(maxValue(dist), d => d)])
+        .range([height - margin.top, 0]);
+
   drawSVG();
-  drawDispersion(dist, 'positivo');
+  drawXAxis();
 
-  var $radios = $('input[name="emotion"]');
+  for(var key in dist){
+    drawDispersion(dist, key);
+  }
 
-  $radios.change(function(){
-    var $checked = $radios.filter(function(){
-      return $(this).prop('checked');
-    });
+  var $checkboxes = $('input[name="emotion"]');
 
-    cleanSVG();
-    drawDispersion(dist, $checked.val());
+  $checkboxes.change(function(){
+    if ($(this).is(':not(:checked)')){
+      cleanSVG($(this).val())
+    }
+    else {
+      drawDispersion(dist, $(this).val());
+    }
   });
 });
