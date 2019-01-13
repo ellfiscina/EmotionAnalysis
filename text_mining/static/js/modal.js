@@ -35,7 +35,7 @@ $(document).ready(function(){
       $('.modal-title').text("Distribuição de Emoção ao Longo do Livro");
       $('.modal-body').text(
         "Este gráfico de dispersão mostra como as emoções estão distribuídas ao " +
-        "longo do livro. Cada trecho analisado corresponde a 100 sentenças do texto."
+        "longo do livro. Cada trecho analisado corresponde a 1000 palavras do texto."
       );
     }
   });

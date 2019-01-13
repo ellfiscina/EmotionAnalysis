@@ -30,7 +30,7 @@ function drawXAxis(){
        .attr("x", width/2)
        .attr("y", 46)
        .style("text-anchor", "end")
-       .text("Trecho (100 sentenças)");
+       .text("Trecho (1000 palavras)");
 
   distSvg.append("g")
        .attr("class", "y axis")

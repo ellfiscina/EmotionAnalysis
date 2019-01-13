@@ -34,34 +34,23 @@ def remove_words(tokens):
     return [t for t in tokens if t not in stopwords and t.isalpha() and len(t) > 2]
 
 
-# def convert_to_text(tokens):
-#     return nltk.Text(tokens)
-
-def sentences(raw):
-    return nltk.sent_tokenize(raw.lower())
-
-
-def tokenize_sentence(sents):
-    return [tokenize(s) for s in sents]
-
-
-def join_sentences(sent_list):
-    mod = len(sent_list) % 100
-    out_range = math.ceil(len(sent_list) / 100)
+def batch(tokens):
+    mod = len(tokens) % 1000
+    out_range = math.ceil(len(tokens) / 1000)
     out_list = []
     start = 0
-    stop = 100
+    stop = 1000
     for i in range(out_range):
         in_list = []
 
         for j in range(start, stop):
-            in_list += sent_list[j]
+            in_list.append(tokens[j])
 
         if i == (out_range - 2):
             stop += mod
         else:
-            stop += 100
-        start += 100
+            stop += 1000
+        start += 1000
         out_list.append(in_list)
     return out_list
 

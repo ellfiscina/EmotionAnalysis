@@ -1,21 +1,5 @@
 import copy
-from collections import defaultdict, Counter
-from django.core.exceptions import ObjectDoesNotExist
-from text_mining.models import Word
-
-
-def newList(tokens):
-    emoList = defaultdict(list)
-
-    for t in tokens:
-        try:
-            w = Word.objects.get(word=t)
-        except ObjectDoesNotExist:
-            continue
-
-        for e in w.emotion_set.all():
-            emoList[e.emotion].append(t)
-    return emoList
+from collections import Counter
 
 
 def generate_word_count(emoList):
@@ -44,15 +28,16 @@ def generate_word_count(emoList):
     return dataset
 
 
-def generate_emotion_distribution(emoList, sentList):
+def generate_emotion_distribution(emoList, tokens):
+    # import code; code.interact(local=dict(globals(), **locals()))
     outter = {}
 
     for emo in emoList:
         inner = []
-        for sent in sentList:
-            index = sentList.index(sent)
+        for token in tokens:
+            index = tokens.index(token)
             count = 0
-            for t in sent:
+            for t in token:
                 if t in emoList[emo]:
                     count += 1
             inner.append([index, count])

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .functions import UploadedFile, LexicalDiversity, MostFrequent
+from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList
 from .functions.pre_process import *
 from .functions.emotion_analysis import *
 from .models import Book
@@ -30,14 +30,10 @@ def word(request):
     filtered = remove_words(tokens)
 
     if 'job_id' not in request.session:
-        job = queue.enqueue(newList, filtered)
+        job = queue.enqueue(NewList, filtered)
         request.session['job_id'] = job.id
         time.sleep(5)
-    # import code; code.interact(local=dict(globals(), **locals()))
-    # tags = book.tags
-    # filtered_tags = remove_words(tags)
 
-    # emoList = newList(filtered)
     commonArray = MostFrequent(filtered, 5)
     commonWords = MostFrequent(filtered, 150)
 
@@ -69,7 +65,7 @@ def emotion(request):
 
         book_id = request.session['book_id']
         book = Book.objects.get(id=book_id)
-        sents = join_sentences(tokenize_sentence(book.sents))
+        tokens_batch = batch(book.tokens)
 
         while job.result is None:
             pass
@@ -77,7 +73,7 @@ def emotion(request):
         emoList = job.result
         job.delete()
 
-        dist = generate_emotion_distribution(emoList, sents)
+        dist = generate_emotion_distribution(emoList, tokens_batch)
         tree = generate_word_count(emoList)
         request.session['dist'] = dist
         request.session['tree'] = tree
