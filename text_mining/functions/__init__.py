@@ -4,3 +4,4 @@ from .most_frequent import MostFrequent
 from .pre_process import *
 from .emotion_analysis import *
 from .emotion_list import NewList
+from .emolex import Emolex

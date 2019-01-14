@@ -9,9 +9,5 @@ def MostFrequent(tokens, qtt):
     # aplaina a lista
     flatList = [item for sublist in emoCount for item in sublist]
 
-    # ordena a lista do maior para o menor
-    # sortedList = sorted(
-    #     set(flatList), key=lambda tup: tup[1], reverse=True)
-
     # retorna os 5 tokens mais comuns
     return [i[0] for i in flatList]

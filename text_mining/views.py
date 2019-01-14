@@ -1,15 +1,16 @@
 from django.shortcuts import render
-from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList
+from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList, Emolex
 from .functions.pre_process import *
 from .functions.emotion_analysis import *
 from nltk import FreqDist
 import json
-import time
+
+EMOLEX = Emolex()
 
 
 def index(request):
     for key in list(request.session.keys()):
-            del request.session[key]
+        del request.session[key]
     return render(request, 'text_mining/index.html')
 
 
@@ -24,7 +25,7 @@ def word(request):
     else:
         tokens = request.session['tokens']
 
-    filtered = remove_words(tokens)
+    filtered = filter_words(tokens)
 
     commonArray = MostFrequent(filtered, 5)
     commonWords = MostFrequent(filtered, 150)
@@ -56,7 +57,7 @@ def emotion(request):
         tokens = request.session['tokens']
         tokens_batch = batch(tokens)
 
-        emoList = NewList(remove_words(tokens))
+        emoList = NewList(filter_words(tokens), EMOLEX)
 
         dist = generate_emotion_distribution(emoList, tokens_batch)
         tree = generate_word_count(emoList)

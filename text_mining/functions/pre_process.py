@@ -1,8 +1,10 @@
 import nltk
 import math
-# from treetagger import TreeTagger
+import re
+from treetagger import TreeTagger
 
 
+# salva a lista de stopwords do corpus do nltk e acrescenta outras palavras
 def extend_stopwords():
     stopwords = nltk.corpus.stopwords.words('portuguese')
     words = ['ali', 'agora', 'ainda', 'alguém', 'algum', 'alguma', 'alguns',
@@ -24,26 +26,28 @@ def extend_stopwords():
     return stopwords
 
 
+# converte o texto em uma lista de tokens
 def tokenize(raw):
     return nltk.word_tokenize(raw.lower())
 
 
-def remove_words(tokens):
+# remove stopwords, símbolos, números e palavras com menos de duas letras
+def filter_words(tokens):
     stopwords = extend_stopwords()
-    return [t for t in tokens if t not in stopwords and t.isalpha() and len(t) > 2]
+    return [t for t in tokens if t not in stopwords and
+            t.isalpha() and len(t) > 2]
 
 
+# divide os tokens em n listas de 1000 palavras e salva em uma lista maior
 def batch(tokens):
     mod = len(tokens) % 1000
     out_range = math.ceil(len(tokens) / 1000)
     out_list = []
     start = 0
     stop = 1000
-    for i in range(out_range):
-        in_list = []
 
-        for j in range(start, stop):
-            in_list.append(tokens[j])
+    for i in range(out_range):
+        in_list = [tokens[j] for j in range(start, stop)]
 
         if i == (out_range - 2):
             stop += mod
@@ -54,22 +58,26 @@ def batch(tokens):
     return out_list
 
 
-# def tags(raw):
-#     tagger = TreeTagger(language='portuguese')
-#     return tagger.tag(raw.lower())
+# usa o pacote TreeTagger para lematizar o texto
+def tags(raw):
+    tagger = TreeTagger(language='portuguese')
+    return tagger.tag(raw.lower())
 
 
-# def tags_to_token(raw):
-#     tagged = tags(raw)
-#     label = re.compile('^A|^R|^NC.P|^NCF|^V')
-#     tokens = []
-#     for tag in tagged:
-#         if(bool(re.search(label, tag[1])) is False or
-#            tag[2] == '<unknown>'):
-#             tokens.append(tag[0].lower())
-#         else:
-#             tokens.append(tag[2])
-#     return tokens
+# salva os tokens lematizados
+# busca por adjetivos (A), advérbios (R), substantivos (N) e verbos (V)
+# e ignora as outras classes
+def tags_to_token(raw):
+    label = re.compile('^A|^R|^NC.P|^NCF|^V')
+    tagged = tags(raw)
+    tokens = []
+    for tag in tagged:
+        if(bool(re.search(label, tag[1])) is False or
+           tag[2] == '<unknown>'):
+            tokens.append(tag[0].lower())
+        else:
+            tokens.append(tag[2])
+    return tokens
 
 
 # def negations(tokens):

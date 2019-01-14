@@ -8,4 +8,3 @@ psycopg2-binary==2.7.6.1
 PyPDF2==1.26.0
 redis==3.0.1
 requests==2.18.4
-rq==0.13.0

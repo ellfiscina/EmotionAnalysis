@@ -1,17 +1,12 @@
 from collections import defaultdict
-from django.core.exceptions import ObjectDoesNotExist
-from text_mining.models import Word
 
 
-def NewList(tokens):
+def NewList(tokens, emotionList):
     emoList = defaultdict(list)
 
     for t in tokens:
-        try:
-            w = Word.objects.get(word=t)
-        except ObjectDoesNotExist:
-            continue
-
-        for e in w.emotion_set.all():
-            emoList[e.emotion].append(t)
+        for e in emotionList:
+            for w in emotionList[e]:
+                if w == t:
+                    emoList[e].append(t)
     return emoList
