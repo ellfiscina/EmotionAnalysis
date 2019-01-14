@@ -1,7 +1,6 @@
 import os
 import re
 import PyPDF2
-from text_mining.models import Book
 from .pre_process import *
 
 
@@ -19,10 +18,10 @@ def UploadedFile(file, filename):
     elif bool(re.search(r"(\.pdf)$", filename)):
         file = readPDF(opened_file)
 
-    book = saveBook(file, filename)
+    tokens = tokenize(file)
     os.remove(path)
 
-    return book
+    return tokens
 
 
 def readPDF(file):
@@ -34,12 +33,3 @@ def readPDF(file):
         content += reader.getPage(i).extractText()
 
     return content
-
-
-def saveBook(raw, filename):
-    book = Book(
-        title=re.sub(r"\..+", "", filename),
-        tokens=tokenize(raw),
-    )
-    book.save()
-    return book

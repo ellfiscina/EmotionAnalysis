@@ -1,5 +1,4 @@
 import nltk
-import re
 import math
 # from treetagger import TreeTagger
 
