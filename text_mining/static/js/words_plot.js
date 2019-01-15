@@ -106,7 +106,8 @@ function drawDispersion(tokens, commonArray){
   };
 }
 
-function drawCloud(data){
+function drawCloud(data, n){
+  data = data.slice(0,n)
   var diameter = $("#cloud-plot").width() - margin.top;
   var color = d3.scale.ordinal().range(generateColorScale(50));
 
@@ -126,7 +127,7 @@ function drawCloud(data){
                    .filter(d => !d.children)
 
   var g = svg.append("g")
-                .attr("transform", "translate(0,0)")
+                .attr("transform", "translate(0,30)")
                 .selectAll(".cloud")
                 .data(nodes)
                 .enter();
@@ -148,6 +149,11 @@ function drawCloud(data){
 }
 
 $(document).ready(function() {
-  drawCloud(mostFrequent);
-	drawDispersion(tokens, commonArray);
+  drawCloud(mostFrequent, 150);
+  drawDispersion(tokens, commonArray);
+  $("#amount").change(function(){
+    console.log($(this).val())
+    d3.select("svg.cloud").remove();
+    drawCloud(mostFrequent, $(this).val());
+  });
 });
