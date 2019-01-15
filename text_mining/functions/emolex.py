@@ -2,6 +2,7 @@ from collections import defaultdict
 import csv
 
 
+# gera um dicionário com listas contendo as palavras que denotam cada emoção
 def Emolex():
     emotionList = defaultdict(list)
 

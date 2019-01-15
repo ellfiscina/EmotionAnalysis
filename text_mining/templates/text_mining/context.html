@@ -13,13 +13,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'text_mining:index' %}">Início</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'text_mining:word' %}">Frequência de Palavras</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'text_mining:emotion' %}">Análise de Emoção</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'text_mining:context' %}">Context</a>
           </li>
         </ul>
@@ -34,14 +34,10 @@
             <h4 class="card-title">Frequência de Palavras</h4>
           </div>
           <div class="card-body">
-            <p class="card-text"> Quantidade de Palavras: {{ diversity.qtd_tokens }} </p>
-            <p class="card-text"> Quantidade de Palavras após o filtro: {{ diversity.qtd_filtered }} </p>
-            <p class="card-text"> Quantidade de Palavras Únicas: {{ diversity.qtd_uniq_tokens }} </p>
-            <p class="card-text"> Quantidade de Palavras Únicas Após o Filtro: {{ diversity.qtd_uniq_filtered }} </p>
+            {{ ngrams }}
           </div>
           <div class="card-footer">
             <a class="modal-link float-right" id="word-freq" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <p class="card-text"> Diversidade Lexical: {{ diversity.lexical }}% </p>
           </div>
         </div>
         <br>
@@ -51,10 +47,9 @@
             <h4 class="card-title">Distribuição Lexical <small>(Palavras mais Frequentes)</small></h4>
           </div>
           <div class="card-body">
-            <div id="dispersion-plot" style="width: 100%;"></div>
+            {{ tokens }}
           </div>
           <div class="card-footer">
-            <div id="dispersion-legend"></div>
           </div>
         </div>
       </div>
@@ -65,18 +60,10 @@
             <h4 class="card-title">Nuvem de Tags</h4>
           </div>
           <div class="card-body">
-            <div id="cloud-plot" style="width: 100%;"></div>
+            {{ context }}
           </div>
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
-{% block scripts %}
-  <script>
-    var tokens = {{ tokens | safe }};
-    var commonArray = {{ commonArray | safe }};
-    var mostFrequent = {{ frequent | safe }};
-  </script>
-  <script src="{% static 'js/words_plot.js' %}"></script>
 {% endblock %}

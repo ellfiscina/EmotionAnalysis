@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('word/', views.word, name='word'),
     path('emotion/', views.emotion, name='emotion'),
+    path('context/', views.context, name='context'),
 ]

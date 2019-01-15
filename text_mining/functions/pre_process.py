@@ -38,13 +38,20 @@ def filter_words(tokens):
             t.isalpha() and len(t) > 2]
 
 
-# divide os tokens em n listas de 1000 palavras e salva em uma lista maior
+# divide os tokens em listas de n palavras e salva em uma lista maior
 def batch(tokens):
-    mod = len(tokens) % 1000
-    out_range = math.ceil(len(tokens) / 1000)
+    if len(tokens) > 5000:
+        n = 1000
+    elif len(tokens) > 500:
+        n = 100
+    else:
+        n = 10
+
+    mod = len(tokens) % n
+    out_range = math.ceil(len(tokens) / n)
     out_list = []
     start = 0
-    stop = 1000
+    stop = n
 
     for i in range(out_range):
         in_list = [tokens[j] for j in range(start, stop)]
@@ -52,8 +59,8 @@ def batch(tokens):
         if i == (out_range - 2):
             stop += mod
         else:
-            stop += 1000
-        start += 1000
+            stop += n
+        start += n
         out_list.append(in_list)
     return out_list
 
@@ -90,3 +97,6 @@ def tags_to_token(raw):
 #         else:
 #             words.append(tokens[i])
 #     return words
+
+def convert_to_text(tokens):
+    return nltk.Text(tokens)

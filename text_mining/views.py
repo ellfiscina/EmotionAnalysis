@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList, Emolex
 from .functions.pre_process import *
 from .functions.emotion_analysis import *
+from .functions.context import *
 from nltk import FreqDist
 import json
 
@@ -53,21 +54,41 @@ def word(request):
 
 def emotion(request):
 
-    if 'dist' not in request.session:
-        tokens = request.session['tokens']
-        tokens_batch = batch(tokens)
+    tokens = request.session['tokens']
 
+    if 'list' not in request.session:
         emoList = NewList(filter_words(tokens), EMOLEX)
 
-        dist = generate_emotion_distribution(emoList, tokens_batch)
-        tree = generate_word_count(emoList)
-        request.session['dist'] = dist
-        request.session['tree'] = tree
+        request.session['list'] = emoList
     else:
-        dist = request.session['dist']
-        tree = request.session['tree']
+        emoList = request.session['list']
+
+    tokens_batch = batch(tokens)
+    dist = generate_emotion_distribution(emoList, tokens_batch)
+    tree = generate_word_count(emoList)
 
     return render(request,
                   'text_mining/emotion.html',
                   {'dist': dist,
                    'tree': tree})
+
+
+def context(request):
+    tokens = request.session['tokens']
+
+    if 'list' not in request.session:
+        emoList = NewList(filter_words(tokens), EMOLEX)
+        request.session['list'] = emoList
+    else:
+        emoList = request.session['list']
+
+    text = convert_to_text(tokens)
+    dist = FreqDist(filter_words(tokens))
+    ngrams = n_grams(text, emoList)
+    similar_tokens = similar(text, emoList)
+    context = concordance(text, dist)
+    return render(request,
+                  'text_mining/context.html',
+                  {'ngrams': ngrams,
+                   'tokens': similar_tokens,
+                   'context': context})
