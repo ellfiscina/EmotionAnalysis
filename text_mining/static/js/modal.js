@@ -22,7 +22,11 @@ $(document).ready(function(){
       $('.modal-body').text(
         "A nuvem de tags representa as palavras mais frequentes no texto. " +
         "O tamanho, a cor e a distribuição das palavras estão diretamente " +
-        "relacionadas com a sua frequência."
+        "relacionadas com a sua frequência.\n" +
+        "A nuvem em formato de espiral dispõe as palavras mais frequentes no centro " +
+        "e as menos frequentes na parte mais externa. Além disso, palavras com a mesma " +
+        "frequência são representadas pela mesma cor. Ao passar o mouse por cima da " +
+        "palavra é possível ver ainda a quantidade de vezes que ela aparece no texto."
       );
     }
     else if(this.id == 'treemap'){

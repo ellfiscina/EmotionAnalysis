@@ -108,7 +108,9 @@ function drawDispersion(tokens, commonArray){
 
 function drawCloud(data, n){
   data = data.slice(0,n)
+
   var diameter = $("#cloud-plot").width() - margin.top;
+
   var color = d3.scale.ordinal().range(generateColorScale(50));
 
   var cloud = d3.layout
@@ -140,11 +142,16 @@ function drawCloud(data, n){
           .style("font-size", d => d.r)
           .text(d => d.text);
 
+  var tip = d3.tip().attr("class", "d3-tip").html(d => d.value);
+  tags.call(tip);
+
   tags.on("mouseover", function(d) {
-        d3.select(this).style("font-size", d => d.r + 10)
+        d3.select(this).style("font-size", d => d.r + 10);
+        tip.show(d);
       })
-      .on("mouseout", function() {
-        d3.select(this).style("font-size", d => d.r)
+      .on("mouseout", function(d) {
+        d3.select(this).style("font-size", d => d.r);
+        tip.hide(d);
       });
 }
 
@@ -152,7 +159,6 @@ $(document).ready(function() {
   drawCloud(mostFrequent, 150);
   drawDispersion(tokens, commonArray);
   $("#amount").change(function(){
-    console.log($(this).val())
     d3.select("svg.cloud").remove();
     drawCloud(mostFrequent, $(this).val());
   });
