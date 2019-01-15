@@ -20,7 +20,7 @@
             <a class="nav-link" href="{% url 'text_mining:emotion' %}">Análise de Emoção</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'text_mining:context' %}">Context</a>
+            <a class="nav-link" href="{% url 'text_mining:context' %}">Contexto</a>
           </li>
         </ul>
       </div>
@@ -29,38 +29,40 @@
   <div class="container-fluid py-5 px-5">
     <div class="row">
       <div class="col-sm-6 my-4">
-        <div class="card" style="height:20em">
+        <div class="card" style="height:22em">
           <div class="card-header">
-            <h4 class="card-title">Frequência de Palavras</h4>
+            <a class="modal-link float-right" id="n-grams" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">5-Grams</h4>
           </div>
           <div class="card-body">
-            {{ ngrams }}
-          </div>
-          <div class="card-footer">
-            <a class="modal-link float-right" id="word-freq" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            {% for n in ngrams %}
+              <li>{{ n }}</li>
+            {% endfor %}
           </div>
         </div>
         <br>
-        <div class="card" style="height:35em">
+        <div class="card" style="height:22em">
           <div class="card-header">
-            <a class="modal-link float-right" id="dist-lex" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">Distribuição Lexical <small>(Palavras mais Frequentes)</small></h4>
+            <a class="modal-link float-right" id="collocations" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">Colocações</h4>
           </div>
           <div class="card-body">
-            {{ tokens }}
-          </div>
-          <div class="card-footer">
+            {% for c in collocations %}
+              <li>{{ c }}</li>
+            {% endfor %}
           </div>
         </div>
       </div>
       <div class="col-sm-6 my-4">
         <div class="card">
           <div class="card-header">
-            <a class="modal-link float-right" id="tag-cloud" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">Nuvem de Tags</h4>
+            <a class="modal-link float-right" id="concordance" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">Concordância</h4>
           </div>
           <div class="card-body">
-            {{ context }}
+            {% for c in context %}
+              <li>{{ c }}</li>
+            {% endfor %}
           </div>
         </div>
       </div>

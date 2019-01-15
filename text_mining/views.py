@@ -4,6 +4,7 @@ from .functions.pre_process import *
 from .functions.emotion_analysis import *
 from .functions.context import *
 from nltk import FreqDist
+from nltk.text import ConcordanceIndex
 import json
 
 EMOLEX = Emolex()
@@ -83,12 +84,12 @@ def context(request):
         emoList = request.session['list']
 
     text = convert_to_text(tokens)
-    dist = FreqDist(filter_words(tokens))
+    filtered = filter_words(tokens)
     ngrams = n_grams(text, emoList)
-    similar_tokens = similar(text, emoList)
-    context = concordance(text, dist)
+    colls = collocations(filtered)
+    context = concordance(ConcordanceIndex(tokens), max_dist(emoList))
     return render(request,
                   'text_mining/context.html',
                   {'ngrams': ngrams,
-                   'tokens': similar_tokens,
+                   'collocations': colls,
                    'context': context})

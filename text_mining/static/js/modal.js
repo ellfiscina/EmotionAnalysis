@@ -3,15 +3,18 @@ $(document).ready(function(){
     if(this.id == 'word-freq'){
       $('.modal-title').text("Diversidade Lexical");
       $('.modal-body').text(
-        "Diversidade lexical é a medida da amplitude do vocabulário do autor. " +
-        "Correspondendo à riqueza de vocabulário."
+        "Diversidade lexical é a medida da amplitude do vocabulário do autor, " +
+        "correspondendo à sua riqueza de vocabulário. Em outras palavras, é a " +
+        "quantidade de tokens únicos em relação ao total de tokens no livro."
       );
     }
     else if(this.id == 'dist-lex'){
       $('.modal-title').text("Distribuição Lexical");
       $('.modal-body').text(
         "Através da distribuição lexical é possível saber quando ou onde certas " +
-        "palavras foram usadas no texto"
+        "palavras foram usadas no texto. Nesta visualização, cada linha representa " +
+        "uma instância da palavra, e o eixo x representa o texto inteiro. As cinco " +
+        "palavras escolhidas são as mais frequentes no texto."
       );
     }
     else if(this.id == 'tag-cloud'){
@@ -36,6 +39,29 @@ $(document).ready(function(){
       $('.modal-body').text(
         "Este gráfico de dispersão mostra como as emoções estão distribuídas ao " +
         "longo do livro. Cada trecho analisado corresponde a 1000 palavras do texto."
+      );
+    }
+    else if(this.id == 'collocations'){
+      $('.modal-title').text("Colocações");
+      $('.modal-body').text(
+        "Essencialmente, colocações são bigramas (pares de palavras) que ocorrem " +
+        "com frequência maior do que a esperada, baseado na frequência das palavras " +
+        "individualmente. As colocações que aparecem são muito específicas do gênero " +
+        "do texto."
+      );
+    }
+    else if(this.id == 'concordance'){
+      $('.modal-title').text("Concordância");
+      $('.modal-body').text(
+        "A concordância refere-se ao contexto das ocorrências de uma dada palavra. " +
+        "A palavra escolhida é a mais frequente do texto que remete a uma emoção."
+      );
+    }
+    else if(this.id == 'n-grams'){
+      $('.modal-title').text("5-Grams");
+      $('.modal-body').text(
+        "N-grams de um texto são conjuntos de palavras co-ocorrentes, de forma que n " +
+        "é a quantidade de palavras na sentença."
       );
     }
   });
