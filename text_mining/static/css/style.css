@@ -351,7 +351,6 @@ ul {
   pointer-events: none;
 }
 
-/* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
   box-sizing: border-box;
   display: inline;
@@ -363,7 +362,6 @@ ul {
   pointer-events: none;
 }
 
-/* Northward tooltips */
 .d3-tip.n:after {
   content: "\25BC";
   margin: -1px 0 0 0;
