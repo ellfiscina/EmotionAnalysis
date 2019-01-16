@@ -268,6 +268,6 @@ function main(root) {
 }
 
 $(document).ready(function() {
- 	data = JSON.parse(document.getElementById('data').textContent)
+ 	var data = JSON.parse(document.getElementById('treemap').textContent)
 	main(JSON.parse(data))
 });

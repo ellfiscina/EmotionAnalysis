@@ -85,11 +85,17 @@ def context(request):
 
     text = convert_to_text(tokens)
     filtered = filter_words(tokens)
-    ngrams = n_grams(text, emoList)
+    max_token = max_dist(emoList)
+    # import code; code.interact(local=dict(globals(), **locals()))
+    ngrams = n_grams(text, max_token, 5)
     colls = collocations(filtered)
-    context = concordance(ConcordanceIndex(tokens), max_dist(emoList))
+    context = concordance(ConcordanceIndex(tokens), max_token)
+    tree = treeword(text, FreqDist(filtered).max())
+
     return render(request,
                   'text_mining/context.html',
-                  {'ngrams': ngrams,
+                  {'max': max_token,
+                   'ngrams': ngrams[:10],
                    'collocations': colls,
-                   'context': context})
+                   'context': context,
+                   'treeword': tree})
