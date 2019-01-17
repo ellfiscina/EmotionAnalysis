@@ -12,11 +12,10 @@ def max_dist(emoList):
     return max(x, key=lambda k: x[k])
 
 
-def n_grams(text, emoList):
-    target_word = max_dist(emoList)
-    fd = FreqDist(ng for ng in ngrams(text, 5) if target_word in ng)
+def n_grams(text, target_word, n):
+    fd = FreqDist(ng for ng in ngrams(text, n) if target_word in ng)
     x = [' '.join(hit) for hit in fd]
-    return x[:10]
+    return x
 
 
 def concordance(ci, word, width=75, lines=25):
@@ -54,3 +53,32 @@ def collocations(tokens):
     colls = finder.nbest(bigram_measures.likelihood_ratio, 10)
 
     return [' '.join(c) for c in colls]
+
+
+def getDict(text, word):
+    ngrams = startingWithWord(text, word)
+
+    array_in = []
+    dict_out = {}
+
+    for g in ngrams[:5]:
+        dict_in = {}
+
+        dict_in['name'] = g.replace(word + ' ', '')
+        dict_in['value'] = 1
+
+        array_in.append(dict_in)
+
+    dict_out['name'] = word
+    dict_out['children'] = array_in
+
+    return dict_out
+
+
+def startingWithWord(text, word):
+    ngrams = n_grams(text, word, 10)
+    return [gram for gram in ngrams if word in gram[0:len(word)]]
+
+
+def treeword(text, word, emoWord):
+    return [getDict(text, word), getDict(text, emoWord)]

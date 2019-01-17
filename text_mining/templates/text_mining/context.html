@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+  {{ treeword | json_script:"treeword" }}
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'text_mining:index' %}">Emotion Analysis</a>
@@ -28,20 +30,20 @@
   </nav>
   <div class="container-fluid py-5 px-5">
     <div class="row">
-      <div class="col-sm-5 my-4">
-        <div class="card" style="height:22em">
+      <div class="col-sm-6 my-4">
+        <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="n-grams" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">5-Grams</h4>
+            <h4 class="card-title">5-Grams <small>(<span id="max-word">{{ max }}</span>)</small></h4>
           </div>
-          <div class="card-body">
+          <div class="card-body n-grams">
             {% for n in ngrams %}
               <li>{{ n }}</li>
             {% endfor %}
           </div>
         </div>
         <br>
-        <div class="card" style="height:22em">
+        <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="collocations" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <h4 class="card-title">Colocações</h4>
@@ -52,20 +54,33 @@
             {% endfor %}
           </div>
         </div>
-      </div>
-      <div class="col-sm-7 my-4">
-        <div class="card">
+        <br>
+        <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="concordance" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <h4 class="card-title">Concordância</h4>
           </div>
-          <div class="card-body">
+          <div class="card-body n-grams">
             {% for c in context %}
               <li>{{ c }}</li>
             {% endfor %}
           </div>
         </div>
       </div>
+      <div class="col-sm-6 my-4">
+        <div class="card">
+          <div class="card-header">
+            <a class="modal-link float-right" id="treeword" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">TreeWord</h4>
+          </div>
+          <div class="card-body">
+            <div id="treeword-plot" style="width: 100%;"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+{% endblock %}
+{% block scripts %}
+  <script src="{% static 'js/context.js' %}"></script>
 {% endblock %}
