@@ -1,7 +1,9 @@
+import re
 import nltk
 from nltk import ngrams, FreqDist
 from nltk.collocations import *
-
+from collections import Counter
+from .pre_process import *
 
 def max_dist(emoList):
     x = {}
@@ -56,23 +58,36 @@ def collocations(tokens):
 
 
 def getDict(text, word):
-    ngrams = startingWithWord(text, word)
-
+    ngrams = startingWithWord(text, word)[:10]
+    word2 = secondWord(ngrams)
+    string = word + ' ' + word2 + ' '
+    regex = re.compile(string)
     array_in = []
-    dict_out = {}
 
-    for g in ngrams[:5]:
+    if word2:
+        array_inner = []
         dict_in = {}
 
-        dict_in['name'] = g.replace(word + ' ', '')
-        dict_in['value'] = 1
+        for g in ngrams:
+            dict_inner = {}
+            if re.match(regex, g):
+                dict_inner['name'] = g.replace(string, '', 1)
+                dict_inner['value'] = 1
+                array_inner.append(dict_inner)
 
+        dict_in['name'] = word2
+        dict_in['children'] = array_inner
         array_in.append(dict_in)
 
-    dict_out['name'] = word
-    dict_out['children'] = array_in
+    for g in ngrams:
+        if not re.match(regex, g):
+            dict_in = {}
+            dict_in['name'] = g.replace(word + ' ', '', 1)
+            dict_in['value'] = 1
 
-    return dict_out
+            array_in.append(dict_in)
+
+    return {'name': word, 'children': array_in}
 
 
 def startingWithWord(text, word):
@@ -82,3 +97,13 @@ def startingWithWord(text, word):
 
 def treeword(text, word, emoWord):
     return [getDict(text, word), getDict(text, emoWord)]
+
+
+def secondWord(grams):
+    tokens = [nltk.word_tokenize(g)[1] for g in grams]
+    counter = Counter(tokens).most_common()[0]
+
+    if counter[0].isalpha() and counter[1] > 1:
+        return counter[0]
+    else:
+        return ''

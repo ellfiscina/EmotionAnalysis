@@ -68,5 +68,14 @@ $(document).ready(function(){
         "é a quantidade de palavras na sentença."
       );
     }
+    else if(this.id == 'treeword'){
+      $('.modal-title').text("Árvore de Palavras");
+      $('.modal-body').text(
+        "Essa visualização permite observar o contexto de determinada palavra. " +
+        "Duas palavras foram escolhidas: a primeira (marcada em verde) corresponde " +
+        "ao token mais frequente no texto; enquanto a segunda (roxo) refere-se à " +
+        "palavra remetente a uma emoção que mais se repete."
+      );
+    }
   });
 });

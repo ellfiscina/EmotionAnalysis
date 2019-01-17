@@ -24,10 +24,10 @@ function main(data, color) {
       root.x0 = height / 2;
       root.y0 = 0;
 
+  root.children.forEach(toggleAll);
   update(root);
 
   function update(root) {
-
     var nodes = tree.nodes(root).reverse();
 
     nodes.forEach(d => d.y = d.depth * 100);
@@ -40,7 +40,7 @@ function main(data, color) {
                         .attr("class", "node")
                         .attr("transform", "translate(" + root.y0 + "," + root.x0 + ")")
                         .on("click", function(d) {
-                          if (d.depth == 0){
+                          if (d.children || d._children){
                             toggle(d);
                             update(d);
                           }
@@ -142,6 +142,7 @@ $(document).ready(function() {
   });
 
   var data = JSON.parse(document.getElementById('treeword').textContent)
+
   main(data[0], "#27ae60")
   main(data[1], "#8e44ad")
 });
