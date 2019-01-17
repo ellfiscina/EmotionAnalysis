@@ -369,3 +369,25 @@ ul {
   left: 0;
   text-align: center;
 }
+
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: #1e8bc3;
+  stroke-width: 1.5px;
+}
+
+.tree-root {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tree-leaf {
+  font-size: 12px;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}

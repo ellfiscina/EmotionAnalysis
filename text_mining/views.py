@@ -90,7 +90,7 @@ def context(request):
     ngrams = n_grams(text, max_token, 5)
     colls = collocations(filtered)
     context = concordance(ConcordanceIndex(tokens), max_token)
-    tree = treeword(text, FreqDist(filtered).max())
+    tree = treeword(text, FreqDist(filtered).max(), max_token)
 
     return render(request,
                   'text_mining/context.html',

@@ -55,14 +55,13 @@ def collocations(tokens):
     return [' '.join(c) for c in colls]
 
 
-def treeword(text, word):
-    ngrams = n_grams(text, word, 10)
-    grams = [gram for gram in ngrams if word in gram[0:len(word)]]
+def getDict(text, word):
+    ngrams = startingWithWord(text, word)
 
     array_in = []
     dict_out = {}
 
-    for g in grams[:10]:
+    for g in ngrams[:5]:
         dict_in = {}
 
         dict_in['name'] = g.replace(word + ' ', '')
@@ -74,3 +73,12 @@ def treeword(text, word):
     dict_out['children'] = array_in
 
     return dict_out
+
+
+def startingWithWord(text, word):
+    ngrams = n_grams(text, word, 10)
+    return [gram for gram in ngrams if word in gram[0:len(word)]]
+
+
+def treeword(text, word, emoWord):
+    return [getDict(text, word), getDict(text, emoWord)]
