@@ -19,15 +19,14 @@ function main(data, color) {
                 .attr("transform", "translate(" + margin.left + "," +
                       margin.top + ")");
 
-  var root;
-      root = data;
-      root.x0 = height / 2;
+  var root = data;
+      root.x0 = height;
       root.y0 = 0;
 
   root.children.forEach(toggleAll);
   update(root);
 
-  function update(root) {
+  function update(data) {
     var nodes = tree.nodes(root).reverse();
 
     nodes.forEach(d => d.y = d.depth * 100);
@@ -38,7 +37,7 @@ function main(data, color) {
     var nodeEnter = node.enter()
                         .append("g")
                         .attr("class", "node")
-                        .attr("transform", "translate(" + root.y0 + "," + root.x0 + ")")
+                        .attr("transform", "translate(" + data.y0 + "," + (data.x0) + ")")
                         .on("click", function(d) {
                           if (d.children || d._children){
                             toggle(d);
@@ -73,7 +72,7 @@ function main(data, color) {
     var nodeExit = node.exit()
                        .transition()
                        .duration(duration)
-                       .attr("transform", "translate(" + root.y + "," + root.x + ")")
+                       .attr("transform", "translate(" + data.y + "," + data.x + ")")
                        .remove();
 
     nodeExit.select("circle")
@@ -89,7 +88,7 @@ function main(data, color) {
         .insert("path", "g")
           .attr("class", "link")
           .attr("d", function(d) {
-            var o = {x: root.x0, y: root.y0};
+            var o = {x: data.x0, y: data.y0};
             return diagonal({source: o, target: o});
           })
         .transition()
@@ -104,7 +103,7 @@ function main(data, color) {
         .transition()
         .duration(duration)
         .attr("d", function(d) {
-          var o = {x: root.x, y: root.y};
+          var o = {x: data.x, y: data.y};
           return diagonal({source: o, target: o});
         })
         .remove();
