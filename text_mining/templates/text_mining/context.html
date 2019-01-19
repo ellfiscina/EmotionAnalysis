@@ -30,7 +30,18 @@
   </nav>
   <div class="container-fluid py-5 px-5">
     <div class="row">
-      <div class="col-sm-6 my-4">
+      <div class="col-sm-12 my-4">
+        <div class="card">
+          <div class="card-header">
+            <a class="modal-link float-right" id="treeword" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">TreeWord</h4>
+          </div>
+          <div class="card-body">
+            <div id="treeword-plot" style="width: 100%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 my-4">
         <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="n-grams" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
@@ -42,7 +53,8 @@
             {% endfor %}
           </div>
         </div>
-        <br>
+      </div>
+      <div class="col-sm-3 my-4">
         <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="collocations" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
@@ -54,7 +66,8 @@
             {% endfor %}
           </div>
         </div>
-        <br>
+      </div>
+      <div class="col-sm-6 my-4">
         <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="concordance" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
@@ -64,17 +77,6 @@
             {% for c in context %}
               <li>{{ c }}</li>
             {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 my-4">
-        <div class="card">
-          <div class="card-header">
-            <a class="modal-link float-right" id="treeword" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">TreeWord</h4>
-          </div>
-          <div class="card-body">
-            <div id="treeword-plot" style="width: 100%;"></div>
           </div>
         </div>
       </div>

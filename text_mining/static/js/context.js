@@ -5,6 +5,10 @@ function main(data, color) {
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
   var i = 0;
 
+  var root = data;
+      root.x0 = height / 2;
+      root.y0 = 0;
+
   var tree = d3.layout.tree()
                       .size([height, width]);
 
@@ -19,17 +23,13 @@ function main(data, color) {
                 .attr("transform", "translate(" + margin.left + "," +
                       margin.top + ")");
 
-  var root = data;
-      root.x0 = height;
-      root.y0 = 0;
-
   root.children.forEach(toggleAll);
   update(root);
 
   function update(data) {
     var nodes = tree.nodes(root).reverse();
 
-    nodes.forEach(d => d.y = d.depth * 100);
+    nodes.forEach(d => d.y = d.depth == 2 ? d.depth * 250 : d.depth * 100);
 
     var node = svg.selectAll("g.node")
                   .data(nodes, d => d.id || (d.id = ++i));
@@ -37,12 +37,10 @@ function main(data, color) {
     var nodeEnter = node.enter()
                         .append("g")
                         .attr("class", "node")
-                        .attr("transform", "translate(" + data.y0 + "," + (data.x0) + ")")
+                        .attr("transform", "translate(" + data.y0 + "," + data.x0 + ")")
                         .on("click", function(d) {
-                          if (d.children || d._children){
                             toggle(d);
                             update(d);
-                          }
                         });
 
     nodeEnter.append("circle")
