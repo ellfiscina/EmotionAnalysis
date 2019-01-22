@@ -19,13 +19,14 @@ def word(request):
         for key in list(request.session.keys()):
             del request.session[key]
 
-        tokens = UploadedFile(
-            request.FILES['file'], str(request.FILES['file']))
-        request.session['tokens'] = tokens
+        raw = UploadedFile(request.FILES['file'], str(request.FILES['file']))
+        request.session['raw'] = raw
     else:
-        tokens = request.session['tokens']
+        raw = request.session['raw']
 
-    filtered = filter_words(tokens)
+    tokens = tokenize(raw)
+    tags = tags_to_token(raw)
+    filtered = filter_words(tags)
 
     commonArray = MostFrequent(filtered, 5)
     commonWords = MostFrequent(filtered, 150)
@@ -43,7 +44,7 @@ def word(request):
 
     context = {
         'diversity': diversity,
-        'tokens': json.dumps(tokens),
+        'tokens': json.dumps(tags),
         'commonArray': json.dumps(commonArray),
         'frequent': frequent
     }
@@ -53,16 +54,16 @@ def word(request):
 
 def emotion(request):
 
-    tokens = request.session['tokens']
+    tags = tags_to_token(request.session['raw'])
 
     if 'list' not in request.session:
-        emoList = NewList(filter_words(tokens), EMOLEX)
+        emoList = NewList(filter_words(tags), EMOLEX)
 
         request.session['list'] = emoList
     else:
         emoList = request.session['list']
 
-    tokens_batch = batch(tokens)
+    tokens_batch = batch(tags)
     dist = generate_emotion_distribution(emoList, tokens_batch)
     tree = generate_word_count(emoList)
 
@@ -73,7 +74,7 @@ def emotion(request):
 
 
 def context(request):
-    tokens = request.session['tokens']
+    tokens = tokenize(request.session['raw'])
 
     if 'list' not in request.session:
         emoList = NewList(filter_words(tokens), EMOLEX)

@@ -11,7 +11,7 @@ def extend_stopwords():
              'algumas', 'ante', 'antes', 'após', 'através', 'cada', 'coisa',
              'contra', 'contudo', 'daquele', 'daqueles', 'dessa', 'dessas',
              'desse', 'desses', 'desta', 'destas', 'deste', 'deste', 'destes',
-             'dever', 'dizer', 'ser', 'enquanto', 'fazer', 'grande', 'la',
+             'dever', 'dizer', 'enquanto', 'estar', 'fazer', 'grande', 'la',
              'lá', 'lo', 'mesma', 'mesmas', 'mesmos', 'muita', 'muitas',
              'muitos', 'nenhum', 'nessa', 'nessas', 'nesta', 'nestas',
              'ninguém', 'nunca', 'outra', 'outras', 'outro', 'outros',

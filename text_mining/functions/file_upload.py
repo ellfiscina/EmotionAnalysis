@@ -1,7 +1,6 @@
 import os
 import re
 import PyPDF2
-from .pre_process import *
 
 
 def UploadedFile(file, filename):
@@ -18,10 +17,9 @@ def UploadedFile(file, filename):
     elif bool(re.search(r"(\.pdf)$", filename)):
         file = readPDF(opened_file)
 
-    tokens = tokenize(file)
     os.remove(path)
 
-    return tokens
+    return file
 
 
 def readPDF(file):
