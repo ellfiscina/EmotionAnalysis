@@ -11,8 +11,6 @@ EMOLEX = Emolex()
 
 
 def index(request):
-    for key in list(request.session.keys()):
-        del request.session[key]
     return render(request, 'text_mining/index.html')
 
 

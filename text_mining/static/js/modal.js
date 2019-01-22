@@ -1,8 +1,14 @@
 $(document).ready(function(){
   $('.modal-link').on('click', function(){
     if(this.id == 'word-freq'){
-      $('.modal-title').text("Diversidade Lexical");
+      $('.modal-title').text("Frequência de Palavras");
       $('.modal-body').text(
+        "A frequência de palavras refere-se à distribuição de palavras/tokens no texto. " +
+        "O primeiro valor (quantidade de palavras) é a contagem de palavras no decorrer " +
+        "do livro. Aqui leva-se em consideração todas as classes gramaticais, conjugações " +
+        "verbais, gênero e número. Inclui-se também numerais e símbolos. Aplicando o filtro, " +
+        "retiram-se todas as variações das palavras, os símbolos, os numerais e os stopwords " +
+        "(palavras sem significado, como artigos e preposições).\n" +
         "Diversidade lexical é a medida da amplitude do vocabulário do autor, " +
         "correspondendo à sua riqueza de vocabulário. Em outras palavras, é a " +
         "quantidade de tokens únicos em relação ao total de tokens no livro."

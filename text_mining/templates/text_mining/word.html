@@ -31,7 +31,8 @@
       <div class="col-sm-6 my-4">
         <div class="card" style="height:20em">
           <div class="card-header">
-            <h4 class="card-title">Frequência de Palavras</h4>
+            <a class="modal-link float-right" id="word-freq" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
+            <h4 class="card-title">Frequência de Palavras no Livro</h4>
           </div>
           <div class="card-body">
             <p class="card-text"> Quantidade de Palavras: {{ diversity.qtd_tokens }} </p>
@@ -40,7 +41,6 @@
             <p class="card-text"> Quantidade de Palavras Únicas Após o Filtro: {{ diversity.qtd_uniq_filtered }} </p>
           </div>
           <div class="card-footer">
-            <a class="modal-link float-right" id="word-freq" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <p class="card-text"> Diversidade Lexical: {{ diversity.lexical }}% </p>
           </div>
         </div>
