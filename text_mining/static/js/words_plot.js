@@ -139,7 +139,7 @@ function drawCloud(data, n){
           .attr("y", d => d.y + 5)
           .attr("text-anchor", "middle")
           .style('fill', d => color(d.value))
-          .style("font-size", d => d.r)
+          .style("font-size", d => d.r + "px")
           .text(d => d.text);
 
   var tip = d3.tip().attr("class", "d3-tip").html(d => d.value);
