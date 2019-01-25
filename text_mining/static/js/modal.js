@@ -17,7 +17,8 @@ $(document).ready(function(){
     else if(this.id == 'dist-lex'){
       $('.modal-title').text("Distribuição Lexical");
       $('.modal-body').text(
-        "Através da distribuição lexical é possível saber quando ou onde certas " +
+        "Distribuição lexical é a medida da homogeneidade da palavra ao decorrer " +
+        "de um texto. Através desta visualização é possível saber quando ou onde certas " +
         "palavras foram usadas no texto. Nesta visualização, cada linha representa " +
         "uma instância da palavra, e o eixo x representa o texto inteiro. As cinco " +
         "palavras escolhidas são as mais frequentes no texto."
