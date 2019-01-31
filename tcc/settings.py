@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['10.87.155.93']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -65,6 +64,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tcc.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
+
 LANGUAGE_CODE = 'pt-BR'
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -74,7 +80,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

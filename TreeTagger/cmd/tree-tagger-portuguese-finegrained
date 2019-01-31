@@ -11,7 +11,7 @@ SPLITTER=${CMD}/portuguese-splitter.perl
 TAGGER=${BIN}/tree-tagger
 ABBR_LIST=${LIB}/portuguese-abbreviations
 POST_TAGGING=${CMD}/portuguese-post-tagging
-PARFILE=${LIB}/portuguese.par
+PARFILE=${LIB}/portuguese-finegrained.par
 
 # splitting 
 $SPLITTER $* |
@@ -23,4 +23,4 @@ $TOKENIZER +1 +s +l $ABBR_LIST |
 grep -v '^$' |
 # tagging
 $TAGGER $PARFILE -token -lemma -sgml | 
-$POST_TAGGING -no
+$POST_TAGGING -yes

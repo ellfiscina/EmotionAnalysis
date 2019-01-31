@@ -10,9 +10,9 @@ OPTIONS="-token -lemma -sgml"
 
 TOKENIZER=${CMD}/utf8-tokenize.perl
 TAGGER=${BIN}/tree-tagger
-TAGGER=tree-tagger
-ABBR_LIST=${LIB}/portuguese-abbreviations
-PARFILE=${LIB}/portuguese2.par
+ABBR_LIST=${LIB}/romanian-abbreviations
+PARFILE=${LIB}/romanian.par
 
-$TOKENIZER -p -a $ABBR_LIST $* |
+$TOKENIZER -r -a $ABBR_LIST $* |
+${CMD}/split-romanian.perl ${LIB}/romanian-tokens |
 $TAGGER $OPTIONS $PARFILE

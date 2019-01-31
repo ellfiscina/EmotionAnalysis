@@ -10,9 +10,9 @@ OPTIONS="-token -lemma -sgml"
 
 TOKENIZER=${CMD}/utf8-tokenize.perl
 TAGGER=${BIN}/tree-tagger
-TAGGER=tree-tagger
-ABBR_LIST=${LIB}/portuguese-abbreviations
-PARFILE=${LIB}/portuguese2.par
+ABBR_LIST=${LIB}/polish-abbreviations
+PARFILE=${LIB}/polish.par
 
-$TOKENIZER -p -a $ABBR_LIST $* |
+$TOKENIZER -a $ABBR_LIST $* |
+# tagging
 $TAGGER $OPTIONS $PARFILE

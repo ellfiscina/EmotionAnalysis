@@ -9,10 +9,11 @@ LIB="/home/ubuntu/EmotionAnalysis/TreeTagger/lib"
 OPTIONS="-token -lemma -sgml"
 
 TOKENIZER=${CMD}/utf8-tokenize.perl
+MWL=${CMD}/mwl-lookup.perl
 TAGGER=${BIN}/tree-tagger
-TAGGER=tree-tagger
-ABBR_LIST=${LIB}/portuguese-abbreviations
-PARFILE=${LIB}/portuguese2.par
+PARFILE=${LIB}/ancient-greek-beta.par
 
-$TOKENIZER -p -a $ABBR_LIST $* |
+$TOKENIZER $* |
+# tagging
 $TAGGER $OPTIONS $PARFILE
+
