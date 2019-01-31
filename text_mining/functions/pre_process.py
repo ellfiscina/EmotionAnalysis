@@ -19,11 +19,16 @@ def extend_stopwords():
              'posso', 'pouco', 'poucos', 'primeiro', 'própria', 'ir',
              'próprio', 'qual', 'quanto', 'ser', 'quantos', 'sempre', 'si',
              'sob', 'sobre', 'talvez', 'tampouco', 'ter', 'ti', 'tido', 'toda',
-             'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas',
-             'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver']
+             'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas', 'cap.'
+             'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver', 'capítulo']
 
     stopwords.extend(words)
     return stopwords
+
+
+# numerais romanos
+def roman():
+    return re.compile('(?=[mdclxvi])m*(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3})')
 
 
 # converte o texto em uma lista de tokens
@@ -35,7 +40,7 @@ def tokenize(raw):
 def filter_words(tokens):
     stopwords = extend_stopwords()
     return [t for t in tokens if t not in stopwords and
-            t.isalpha() and len(t) > 2]
+            t.isalpha() and len(t) > 2 and not bool(re.search(roman(), t))]
 
 
 # divide os tokens em listas de n palavras e salva em uma lista maior
