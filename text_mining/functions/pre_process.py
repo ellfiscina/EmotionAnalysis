@@ -41,7 +41,7 @@ def tokenize(raw):
 # remove stopwords, símbolos, números e palavras com menos de duas letras
 def filter_words(tokens):
     stopwords = extend_stopwords()
-    return [t for t in tokens if t not in stopwords and
+    return [t for t in tokens if t not in stopwords and len(t) > 1 and
             t.isalpha() and not bool(re.search(roman(), t))]
 
 
