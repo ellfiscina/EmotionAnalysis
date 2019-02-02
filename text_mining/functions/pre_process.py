@@ -12,15 +12,16 @@ def extend_stopwords():
              'contra', 'contudo', 'daquele', 'daqueles', 'dessa', 'dessas',
              'desse', 'desses', 'desta', 'destas', 'deste', 'deste', 'destes',
              'dever', 'dizer', 'enquanto', 'estar', 'fazer', 'grande', 'la',
-             'lá', 'lo', 'mesma', 'mesmas', 'mesmos', 'muita', 'muitas',
-             'muitos', 'nenhum', 'nessa', 'nessas', 'nesta', 'nestas',
-             'ninguém', 'nunca', 'outra', 'outras', 'outro', 'outros',
+             'lá', 'lo', 'mesma', 'mesmas', 'mesmos', 'muita', 'muitas', 'aí',
+             'muitos', 'nenhum', 'nessa', 'nessas', 'nesta', 'nestas', 'ah',
+             'ninguém', 'nunca', 'outra', 'outras', 'outro', 'outros', 'oh',
              'pequeno', 'per', 'perante', 'poder', 'pois', 'porém', 'porque',
-             'posso', 'pouco', 'poucos', 'primeiro', 'própria', 'ir',
+             'posso', 'pouco', 'poucos', 'primeiro', 'própria', 'ir', 'cap.',
              'próprio', 'qual', 'quanto', 'ser', 'quantos', 'sempre', 'si',
              'sob', 'sobre', 'talvez', 'tampouco', 'ter', 'ti', 'tido', 'toda',
-             'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas', 'cap.'
-             'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver', 'capítulo']
+             'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas',
+             'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver',
+             'capítulo']
 
     stopwords.extend(words)
     return stopwords
@@ -28,7 +29,8 @@ def extend_stopwords():
 
 # numerais romanos
 def roman():
-    return re.compile('(?=[mdclxvi])m*(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3})')
+    regex = '^(?=[mdclxvi])m*(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3})$'
+    return re.compile(regex)
 
 
 # converte o texto em uma lista de tokens
@@ -40,7 +42,7 @@ def tokenize(raw):
 def filter_words(tokens):
     stopwords = extend_stopwords()
     return [t for t in tokens if t not in stopwords and
-            t.isalpha() and len(t) > 2 and not bool(re.search(roman(), t))]
+            t.isalpha() and not bool(re.search(roman(), t))]
 
 
 # divide os tokens em listas de n palavras e salva em uma lista maior
