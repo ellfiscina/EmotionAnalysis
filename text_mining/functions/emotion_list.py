@@ -8,11 +8,16 @@ def NewList(tokens, emotionList):
     # import code; code.interact(local=dict(globals(), **locals()))
     for t in tokens:
         for e in emotionList:
-            for w in emotionList[e]:
-                if(bool(re.search(re.compile('não '), t))):
-                    if w == re.sub(r'não ', '', t):
-                        emoList[revert_emotion(e)].append(t)
-                elif w == t:
+            x = False
+            if('não ' in t):
+                z = t[4:]
+                x = True
+            else:
+                z = t
+            if z in emotionList[e]:
+                if(x):
+                    emoList[revert_emotion(e)].append(t)
+                else:
                     emoList[e].append(t)
     return emoList
 

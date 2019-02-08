@@ -134,7 +134,7 @@ function main(root) {
      .append("xhtml:div")
      .attr("dy", ".75em")
      .html(function(d) {
-        if(parseInt( x(d.x + d.dx) - x(d.x) ) >   50 )
+        if(percentage(d.value, data.value) > 0.4 )
           return d.name + ": "+ percentage(d.value, data.value) + "%";
         else
           return "";
