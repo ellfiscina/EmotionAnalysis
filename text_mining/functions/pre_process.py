@@ -1,7 +1,13 @@
 import nltk
 import math
 import re
+import string
 from treetagger import TreeTagger
+
+
+# converte o texto em uma lista de tokens
+def tokenize(raw):
+    return nltk.word_tokenize(raw.lower())
 
 
 # salva a lista de stopwords do corpus do nltk e acrescenta outras palavras
@@ -27,22 +33,31 @@ def extend_stopwords():
     return stopwords
 
 
-# numerais romanos
-def roman():
+def remove_stopwords(tokens):
+    stopwords = extend_stopwords()
+    return [t for t in tokens if t not in stopwords]
+
+
+def remove_pontuaction(tokens):
+    return [t for t in tokens if t not in string.punctuation]
+
+
+def remove_one_letter(tokens):
+    return [t for t in tokens if len(t) > 1]
+
+
+def remove_roman(tokens):
     regex = '^(?=[mdclxvi])m*(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3})$'
-    return re.compile(regex)
-
-
-# converte o texto em uma lista de tokens
-def tokenize(raw):
-    return nltk.word_tokenize(raw.lower())
+    return [t for t in tokens if not bool(re.search(re.compile(regex), t))]
 
 
 # remove stopwords, símbolos, números e palavras com menos de duas letras
 def filter_words(tokens):
-    stopwords = extend_stopwords()
-    return [t for t in tokens if t not in stopwords and len(t) > 1 and
-            t.isalpha() and not bool(re.search(roman(), t))]
+    t1 = remove_stopwords(tokens)
+    t2 = remove_pontuaction(t1)
+    t3 = remove_one_letter(t2)
+
+    return(remove_roman(t3))
 
 
 # divide os tokens em listas de n palavras e salva em uma lista maior
@@ -94,16 +109,17 @@ def tags_to_token(raw):
     return tokens
 
 
-# def negations(tokens):
-#     words = []
-#     for i in range(0, len(tokens)):
-#         if tokens[i] == 'não' and tokens[i + 1].isalpha():
-#             words.append(' '.join(tokens[i:i + 2]))
-#         elif tokens[i - 1] == 'não':
-#             pass
-#         else:
-#             words.append(tokens[i])
-#     return words
+def negations(tokens):
+    words = []
+    for i in range(0, len(tokens)):
+        if tokens[i] == 'não' and tokens[i + 1].isalpha():
+            words.append(' '.join(tokens[i:i + 2]))
+        elif tokens[i - 1] == 'não':
+            pass
+        else:
+            words.append(tokens[i])
+    return words
+
 
 def convert_to_text(tokens):
     return nltk.Text(tokens)

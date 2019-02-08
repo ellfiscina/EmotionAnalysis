@@ -58,7 +58,7 @@ def emotion(request):
     tagged = tags_to_token(request.session['raw'])
 
     if 'list' not in request.session:
-        emoList = NewList(filter_words(tagged), EMOLEX)
+        emoList = NewList(filter_words(negations(tagged)), EMOLEX)
 
         request.session['list'] = emoList
     else:
@@ -78,7 +78,7 @@ def context(request):
     tokens = tokenize(request.session['raw'])
 
     if 'list' not in request.session:
-        emoList = NewList(filter_words(tokens), EMOLEX)
+        emoList = NewList(filter_words(negations(tagged)), EMOLEX)
         request.session['list'] = emoList
     else:
         emoList = request.session['list']
