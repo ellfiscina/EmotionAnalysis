@@ -20,7 +20,7 @@ function main(data, color) {
                 .attr("width", width + margin.right + margin.left)
                 .attr("height", height + margin.top + margin.bottom)
               .append("g")
-                .attr("transform", "translate(" + margin.left + "," +
+                .attr("transform", "translate(150," +
                       margin.top + ")");
 
   root.children.forEach(toggleAll);

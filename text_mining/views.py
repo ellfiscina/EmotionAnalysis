@@ -64,6 +64,7 @@ def emotion(request):
     else:
         emoList = request.session['list']
 
+    # import code; code.interact(local=dict(globals(), **locals()))
     tokens_batch = batch(tagged)
     dist = generate_emotion_distribution(emoList, tokens_batch)
     tree = generate_word_count(emoList)
@@ -78,6 +79,7 @@ def context(request):
     tokens = tokenize(request.session['raw'])
 
     if 'list' not in request.session:
+        tagged = tags_to_token(request.session['raw'])
         emoList = NewList(filter_words(negations(tagged)), EMOLEX)
         request.session['list'] = emoList
     else:

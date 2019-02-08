@@ -1,5 +1,4 @@
 from collections import defaultdict
-import re
 
 
 def NewList(tokens, emotionList):
@@ -39,7 +38,7 @@ def revert_emotion(emotion):
         return 'raiva'
     elif emotion == 'raiva':
         return 'medo'
-    elif emotion == 'nojo':
+    elif emotion == 'repulsa':
         return 'confiança'
     elif emotion == 'confiança':
-        return 'nojo'
+        return 'repulsa'

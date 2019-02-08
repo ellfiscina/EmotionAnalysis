@@ -3,7 +3,7 @@ from collections import Counter
 
 
 def generate_word_count(emoList):
-    labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'nojo',
+    labels = ['positivo', 'negativo', 'alegria', 'tristeza', 'repulsa',
               'antecipação', 'medo', 'surpresa', 'confiança', 'raiva']
     array_out = []
 

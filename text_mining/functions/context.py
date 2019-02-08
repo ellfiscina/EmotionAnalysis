@@ -5,6 +5,7 @@ from nltk.collocations import *
 from collections import Counter
 from .pre_process import *
 
+
 def max_dist(emoList):
     x = {}
     for e in emoList:
