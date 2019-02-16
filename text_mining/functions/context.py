@@ -60,35 +60,38 @@ def collocations(tokens):
 
 def getDict(text, word):
     ngrams = startingWithWord(text, word)[:10]
-    word2 = secondWord(ngrams)
-    string = word + ' ' + word2 + ' '
-    regex = re.compile(string)
-    array_in = []
+    if not ngrams:
+        return {'name': '', 'children': ''}
+    else:
+        word2 = secondWord(ngrams)
+        string = word + ' ' + word2 + ' '
+        regex = re.compile(string)
+        array_in = []
 
-    if word2:
-        array_inner = []
-        dict_in = {}
-
-        for g in ngrams:
-            dict_inner = {}
-            if re.match(regex, g):
-                dict_inner['name'] = g.replace(string, '', 1)
-                dict_inner['value'] = 1
-                array_inner.append(dict_inner)
-
-        dict_in['name'] = word2
-        dict_in['children'] = array_inner
-        array_in.append(dict_in)
-
-    for g in ngrams:
-        if not re.match(regex, g):
+        if word2:
+            array_inner = []
             dict_in = {}
-            dict_in['name'] = g.replace(word + ' ', '', 1)
-            dict_in['value'] = 1
 
+            for g in ngrams:
+                dict_inner = {}
+                if re.match(regex, g):
+                    dict_inner['name'] = g.replace(string, '', 1)
+                    dict_inner['value'] = 1
+                    array_inner.append(dict_inner)
+
+            dict_in['name'] = word2
+            dict_in['children'] = array_inner
             array_in.append(dict_in)
 
-    return {'name': word, 'children': array_in}
+        for g in ngrams:
+            if not re.match(regex, g):
+                dict_in = {}
+                dict_in['name'] = g.replace(word + ' ', '', 1)
+                dict_in['value'] = 1
+
+                array_in.append(dict_in)
+
+        return {'name': word, 'children': array_in}
 
 
 def startingWithWord(text, word):
@@ -96,8 +99,8 @@ def startingWithWord(text, word):
     return [gram for gram in ngrams if word in gram[0:len(word)]]
 
 
-def treeword(text, word, emoWord):
-    return [getDict(text, word), getDict(text, emoWord)]
+def treeword(text, word):
+    return getDict(text, word)
 
 
 def secondWord(grams):

@@ -64,7 +64,6 @@ def emotion(request):
     else:
         emoList = request.session['list']
 
-    # import code; code.interact(local=dict(globals(), **locals()))
     tokens_batch = batch(tagged)
     dist = generate_emotion_distribution(emoList, tokens_batch)
     tree = generate_word_count(emoList)
@@ -76,6 +75,7 @@ def emotion(request):
 
 
 def context(request):
+    error = False
     tokens = tokenize(request.session['raw'])
 
     if 'list' not in request.session:
@@ -91,7 +91,13 @@ def context(request):
     ngrams = n_grams(text, max_token, 5)
     colls = collocations(filtered)
     context = concordance(ConcordanceIndex(tokens), max_token)
-    tree = treeword(text, FreqDist(filtered).max(), max_token)
+
+    if request.method == 'POST':
+        tree = treeword(text, request.POST['word'])
+        if not tree['name']:
+            error = True
+    else:
+        tree = treeword(text, max_token)
 
     return render(request,
                   'text_mining/context.html',
@@ -99,4 +105,5 @@ def context(request):
                    'ngrams': ngrams[:10],
                    'collocations': colls,
                    'context': context,
-                   'treeword': tree})
+                   'treeword': tree,
+                   'error': error})

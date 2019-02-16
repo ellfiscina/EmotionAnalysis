@@ -29,7 +29,7 @@ function main(data, color) {
   function update(data) {
     var nodes = tree.nodes(root).reverse();
 
-    nodes.forEach(d => d.y = d.depth == 2 ? d.depth * 250 : d.depth * 100);
+    nodes.forEach(d => d.y = d.depth == 2 ? d.depth * 200 : d.depth * 100);
 
     var node = svg.selectAll("g.node")
                   .data(nodes, d => d.id || (d.id = ++i));
@@ -140,6 +140,7 @@ $(document).ready(function() {
 
   var data = JSON.parse(document.getElementById('treeword').textContent)
 
-  main(data[0], "#27ae60")
-  main(data[1], "#8e44ad")
+  // main(data[0], "#27ae60")
+  // main(data[1], "#8e44ad")
+  main(data, "#8e44ad")
 });

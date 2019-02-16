@@ -30,19 +30,48 @@
   </nav>
   <div class="container-fluid py-5 px-5">
     <div class="row">
-      <div class="col-sm-12 my-4">
+      <div class="col-lg-12 my-4">
         <div class="card">
           <div class="card-header">
-            <a class="modal-link float-right" id="treeword" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">TreeWord</h4>
+            <h4 class="card-title">Árvore de Palavras</h4>
           </div>
-          <div class="card-body">
-            <div id="treeword-plot" style="width: 100%;"></div>
+          <div class="card-body row">
+            <div class="col-9">
+              <div id="treeword-plot" style="width: 100%;"></div>
+            </div>
+            <div class="col-3" style="text-align: justify;">
+              <legend>O que é uma árvore de palavras?</legend>
+              <span>
+                Essa visualização permite observar o contexto de determinada palavra.
+                A palavra escolhida para ser a raiz da árvore é a mais frequente no
+                texto que sugere uma emoção.
+                <br>
+                É possível interagir com os nós pais, para esconder ou mostrar as folhas.
+                <br>
+                Também é possível escolher outras palavras para observar o seu comportamento
+              </span>
+              <hr>
+              <form action="{{ request.build_absolute_uri }}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="container-flex my-4">
+                  <legend>Digite uma palavra</legend>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="word">
+                    {% if error %}
+                      <small style="color: red;">
+                          Essa palavra não existe no texto.
+                      </small>
+                    {% endif %}
+                  </div>
+                  <input type="submit" value="Enviar" class="btn btn-primary">
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-3 my-4">
-        <div class="card" style="height:fit-content">
+      <div class="col-lg-3 my-4">
+        <div class="card">
           <div class="card-header">
             <a class="modal-link float-right" id="n-grams" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <h4 class="card-title">5-Grams <small>(<span id="max-word">{{ max }}</span>)</small></h4>
@@ -54,8 +83,8 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3 my-4">
-        <div class="card" style="height:fit-content">
+      <div class="col-lg-3 my-4">
+        <div class="card">
           <div class="card-header">
             <a class="modal-link float-right" id="collocations" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <h4 class="card-title">Colocações</h4>
@@ -67,7 +96,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 my-4">
+      <div class="col-lg-6 my-4">
         <div class="card" style="height:fit-content">
           <div class="card-header">
             <a class="modal-link float-right" id="concordance" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
