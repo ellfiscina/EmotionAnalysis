@@ -8,8 +8,10 @@
         <div class="col-12 my-auto">
           <div class="overlay"></div>
           <div class="main-wrapper-content py-5 py-md-0">
-            <h1 class="mb-3">Mineração de Textos Literários</h1>
-            <p class="mb-5">Ferramenta para análise de emoções e de contexto obras literárias por meio de visualizações. 
+            <h1 class="mb-3">
+              <img src="{% static 'images/title.png' %}" height="90px">
+            </h1>
+            <p class="mb-5">Ferramenta para análise de emoções e de contexto obras literárias por meio de visualizações.
             <form action="{{ request.build_absolute_uri }}word/" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="container-fluid">
@@ -20,7 +22,7 @@
                     </div>
                   </div>
                   <div class="col-4">
-                    <input type="submit" value="Upload File" class="btn btn-primary" disabled>
+                    <input type="submit" value="Enviar" class="btn btn-primary" disabled>
                   </div>
                 </div>
               </div>

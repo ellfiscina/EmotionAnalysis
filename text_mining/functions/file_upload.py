@@ -1,33 +1,41 @@
-import os
+import docx
 import re
-import PyPDF2
+import pdftotext
 
 
 def UploadedFile(file, filename):
-    path = 'text_mining/static/' + filename
+    # path = 'text_mining/static/' + filename
 
-    with open(path, 'wb+') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
+    # import code; code.interact(local=dict(globals(), **locals()))
 
-    opened_file = open(path, 'rb')
+    # with open(path, 'wb+') as destination:
+    #     for chunk in file.chunks():
+    #         destination.write(chunk)
+
+    # opened_file = open(path, 'rb')
 
     if bool(re.search(r"(\.txt)$", filename)):
-        file = opened_file.read().decode('utf-8')
-    elif bool(re.search(r"(\.pdf)$", filename)):
-        file = readPDF(opened_file)
+        opened_file = file.read().decode('utf-8')
+    elif bool(re.search(r"(\.(pdf|PDF))$", filename)):
+        opened_file = readPDF(file)
+    elif bool(re.search(r"(\.doc(x| ))$", filename)):
+        opened_file = readDOC(file)
+    # os.remove(path)
 
-    os.remove(path)
-
-    return file
+    return opened_file
 
 
 def readPDF(file):
-    reader = PyPDF2.PdfFileReader(file)
-    num_pages = reader.getNumPages()
-    content = ''
+    pdf = pdftotext.PDF(file)
 
-    for i in range(num_pages):
-        content += reader.getPage(i).extractText()
+    return "\n\n".join(pdf)
 
-    return content
+
+def readDOC(file):
+    doc = docx.Document(file)
+    content = []
+
+    for p in doc.paragraphs:
+        content.append(p.text)
+
+    return '\n'.join(content)

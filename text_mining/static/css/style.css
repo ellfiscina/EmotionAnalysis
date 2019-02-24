@@ -391,3 +391,12 @@ path.link {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+.navbar-brand img {
+  height: 45px;
+}
+
+.content-wrapper {
+  padding: 3rem;
+  margin-top: 20px;
+}
