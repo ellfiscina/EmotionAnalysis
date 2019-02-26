@@ -27,7 +27,7 @@ def extend_stopwords():
              'sob', 'sobre', 'talvez', 'tampouco', 'ter', 'ti', 'tido', 'toda',
              'todas', 'todavia', 'todo', 'todos', 'tudo', 'último', 'umas',
              'uns', 'vendo', 'ver', 'vez', 'vindo', 'vir', 'vós', 'haver',
-             'capítulo', '...']
+             'capítulo', '...', 'd.']
 
     stopwords.extend(words)
     return stopwords
