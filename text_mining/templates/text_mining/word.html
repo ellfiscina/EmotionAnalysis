@@ -47,13 +47,27 @@
           </div>
         </div>
         <br>
-        <div class="card" style="height:35em">
+        <div class="card" style="height:39em">
           <div class="card-header">
             <a class="modal-link float-right" id="dist-lex" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
-            <h4 class="card-title">Distribuição Lexical <small>(Palavras mais Frequentes)</small></h4>
+            <h4 class="card-title">
+              Distribuição Lexical
+            </h4>
           </div>
           <div class="card-body">
             <div id="dispersion-plot" style="width: 100%;"></div>
+            <div class="container-flex my-4">
+              <div class="row">
+                <div class="col-4">
+                  <span>Escolha outra palavra:</span>
+                </div>
+                <div class="col-4">
+                  <select id="word-dist-sel" name="word">
+                    <option disabled selected value> ---- </option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-footer">
             <div id="dispersion-legend"></div>
@@ -66,8 +80,8 @@
             <a class="modal-link float-right" id="tag-cloud" href="" data-toggle="modal" data-target="#myModal"><i class="fas fa-info-circle"></i></a>
             <h4 class="card-title">Nuvem de Tags</h4>
           </div>
-          <div class="card-body">
-            <div id="cloud-plot" style="width: 100%;"></div>
+          <div class="card-body h-100">
+            <div id="cloud-plot" style="width: 100%; height: 100%;"></div>
           </div>
           <div class="card-footer">
             <div class="form-group row">
@@ -89,6 +103,7 @@
     var tokens = {{ tokens | safe }};
     var commonArray = {{ commonArray | safe }};
     var mostFrequent = {{ frequent | safe }};
+    var filtered = {{ filtered | safe }};
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
   <script src="{% static 'js/words_plot.js' %}"></script>

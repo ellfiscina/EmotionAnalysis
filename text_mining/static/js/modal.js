@@ -21,7 +21,9 @@ $(document).ready(function(){
         "de um texto. Através desta visualização é possível saber quando ou onde certas " +
         "palavras foram usadas no texto. Nesta visualização, cada linha representa " +
         "uma instância da palavra, e o eixo x representa o texto inteiro. As cinco " +
-        "palavras escolhidas são as mais frequentes no texto."
+        "palavras escolhidas são as mais frequentes no texto.\n" +
+        "Também é possível observar o comportamento de outras palavras no texto." +
+        "Basta selecionar uma das opções."
       );
     }
     else if(this.id == 'tag-cloud'){

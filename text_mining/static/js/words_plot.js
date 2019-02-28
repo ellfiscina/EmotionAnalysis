@@ -35,6 +35,7 @@ function drawDispersion(tokens, commonArray){
               .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.bottom + margin.top)
+                .attr("class", "dist-svg")
               .append("g")
                 .attr("transform", "translate(" + margin.left + ", 0)")
                 .style("shape-rendering", "crispEdges");
@@ -53,26 +54,37 @@ function drawDispersion(tokens, commonArray){
 
   commonArray.forEach(function(element, index, array){
     dataset = createDataset(tokens, element);
-      svg.append("g")
-         .attr("class", element)
-         .selectAll("rect")
-           .data(dataset)
-           .enter()
-         .append("rect")
-           .attr("x", d=>x(d))
-           .attr("y", -60 * index + 240)
-           .attr("width", 1)
-           .attr("height", 50)
-           .attr("transform","translate(" + margin.right + "," +
-                 (height - margin.top) + "),scale(1,-1)")
-           .style("fill", color(index))
-           .style("stroke", color(index));
+      g = svg.append("g")
+             .attr("class", element)
+             .selectAll("rect")
+              .data(dataset)
+              .enter();
+      dist = g.append("rect")
+              .attr("x", d=>x(d))
+              .attr("y", -60 * (4 - index) + 240)
+              .attr("width", 1)
+              .attr("height", 50)
+              .attr("transform","translate(" + margin.right + "," +
+                   (height - margin.top) + "),scale(1,-1)")
+              .style("fill", color(index))
+              .style("stroke", color(index));
+
+      var tip = d3.tip().attr("class", "d3-tip").html(element + " - " + index);
+      dist.call(tip);
+
+      dist.on("mouseover", function(d) {
+        tip.show(d);
+       })
+       .on("mouseout", function(d) {
+        tip.hide(d);
+       });
   });
 
   var legend = d3.select("#dispersion-legend")
                  .append("svg")
                    .attr("width", width + margin.left + margin.right)
                    .attr("height", 20)
+                   .attr("class", "legend-svg")
                  .selectAll(".legend")
                  .data(commonArray)
                  .enter()
@@ -109,20 +121,20 @@ function drawDispersion(tokens, commonArray){
 function drawCloud(data, n){
   data = data.slice(0,n)
 
-  var diameter = $("#cloud-plot").width() - margin.top;
-
+  var width = $("#cloud-plot").width() - margin.top;
+  var height = $("#cloud-plot").height() - margin.top;
   var color = d3.scale.ordinal().range(generateColorScale(50));
 
   var cloud = d3.layout
                 .pack()
                 .sort(null)
-                .size([diameter, diameter])
-                .padding(diameter/15);
+                .size([width, width])
+                .padding(width/15);
 
   var svg = d3.select("#cloud-plot")
               .append("svg")
-              .attr("width", diameter)
-              .attr("height", diameter)
+              .attr("width", width)
+              .attr("height", height)
               .attr("class", "cloud");
 
   var nodes = cloud.nodes({children:data})
@@ -155,11 +167,28 @@ function drawCloud(data, n){
       });
 }
 
+function populateSelect(words){
+  words.forEach(function(element, index){
+    $('#word-dist-sel').append('<option value="' + element + '">' + element + '</option>');
+  });
+}
+
 $(document).ready(function() {
+  var words = new Set(filtered);
+
+  populateSelect(words);
   drawCloud(mostFrequent, 150);
   drawDispersion(tokens, commonArray);
-  $("#amount").change(function(){
-    d3.select("svg.cloud").remove();
+
+  $('#amount').change(function(){
+    d3.select('svg.cloud').remove();
     drawCloud(mostFrequent, $(this).val());
+  });
+
+  $('#word-dist-sel').on('change', function(){
+    var wordArray = [$('#word-dist-sel').val()];
+    d3.select('.dist-svg').remove();
+    d3.select('.legend-svg').remove();
+    drawDispersion(tokens, [$(this).val()]);
   });
 });
