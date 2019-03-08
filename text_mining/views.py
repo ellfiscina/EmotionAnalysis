@@ -1,13 +1,16 @@
 from django.shortcuts import render
-from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList, Emolex
+from .functions import UploadedFile, LexicalDiversity, MostFrequent, NewList
 from .functions.pre_process import *
 from .functions.emotion_analysis import *
 from .functions.context import *
 from nltk import FreqDist
 from nltk.text import ConcordanceIndex
 import json
+import django_rq
+import random
 
-EMOLEX = Emolex()
+
+queue = django_rq.get_queue('default', is_async=True, result_ttl=-1)
 
 
 def index(request):
@@ -26,8 +29,12 @@ def word(request):
 
     tokens = tokenize(raw)
     tagged = tags_to_token(raw)
-    filtered = filter_words(tagged)
 
+    if 'jid' not in request.session:
+        job = queue.enqueue(NewList, filter_words(negations(tagged)))
+        request.session['jid'] = job.id
+
+    filtered = filter_words(tagged)
     # import code; code.interact(local=dict(globals(), **locals()))
     commonArray = MostFrequent(filtered, 5)
     commonWords = MostFrequent(filtered, 150)
@@ -55,19 +62,23 @@ def word(request):
 
 
 def emotion(request):
-
-    tagged = tags_to_token(request.session['raw'])
-
     if 'list' not in request.session:
-        emoList = NewList(filter_words(negations(tagged)), EMOLEX)
+        job = queue.fetch_job(request.session['jid'])
+        # emoList = NewList(filter_words(negations(tagged)), EMOLEX)
 
+        tagged = tags_to_token(request.session['raw'])
+        tokens_batch = batch(tagged)
+        emoList = job.result
+        job.delete()
+        dist = generate_emotion_distribution(emoList, tokens_batch)
+        tree = generate_word_count(emoList)
         request.session['list'] = emoList
+        request.session['dist'] = dist
+        request.session['tree'] = tree
     else:
         emoList = request.session['list']
-
-    tokens_batch = batch(tagged)
-    dist = generate_emotion_distribution(emoList, tokens_batch)
-    tree = generate_word_count(emoList)
+        dist = request.session['dist']
+        tree = request.session['tree']
 
     return render(request,
                   'text_mining/emotion.html',
@@ -80,8 +91,11 @@ def context(request):
     tokens = tokenize(request.session['raw'])
 
     if 'list' not in request.session:
-        tagged = tags_to_token(request.session['raw'])
-        emoList = NewList(filter_words(negations(tagged)), EMOLEX)
+        job = queue.fetch_job(request.session['jid'])
+        # tagged = tags_to_token(request.session['raw'])
+        # emoList = NewList(filter_words(negations(tagged)), EMOLEX)
+        emoList = job.result
+        job.delete()
         request.session['list'] = emoList
     else:
         emoList = request.session['list']
@@ -94,16 +108,16 @@ def context(request):
     context = concordance(ConcordanceIndex(tokens), max_token)
 
     if request.method == 'POST':
-        tree = treeword(text, request.POST['word'])
+        tree = getDict(text, request.POST['word'])
         if not tree['name']:
             error = True
     else:
-        tree = treeword(text, max_token)
+        tree = getDict(text, max_token)
 
     return render(request,
                   'text_mining/context.html',
                   {'max': max_token,
-                   'ngrams': ngrams[:10],
+                   'ngrams': random.sample(ngrams, 10),
                    'collocations': colls,
                    'context': context,
                    'treeword': tree,

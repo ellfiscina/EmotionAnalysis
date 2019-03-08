@@ -1,7 +1,9 @@
+from .emolex import Emolex
 from collections import defaultdict
 
 
-def NewList(tokens, emotionList):
+def NewList(tokens):
+    emotionList = Emolex()
     emoList = defaultdict(list)
 
     # import code; code.interact(local=dict(globals(), **locals()))

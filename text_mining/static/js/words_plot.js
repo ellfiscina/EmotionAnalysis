@@ -185,10 +185,9 @@ $(document).ready(function() {
     drawCloud(mostFrequent, $(this).val());
   });
 
-  $('#word-dist-sel').on('change', function(){
-    var wordArray = [$('#word-dist-sel').val()];
+  $('#word-submit').on('click', function(){
     d3.select('.dist-svg').remove();
     d3.select('.legend-svg').remove();
-    drawDispersion(tokens, [$(this).val()]);
+    drawDispersion(tokens, [$('#word-dist').val()]);
   });
 });

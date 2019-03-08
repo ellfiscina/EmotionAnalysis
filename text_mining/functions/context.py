@@ -99,10 +99,6 @@ def startingWithWord(text, word):
     return [gram for gram in ngrams if word in gram[0:len(word)]]
 
 
-def treeword(text, word):
-    return getDict(text, word)
-
-
 def secondWord(grams):
     tokens = [nltk.word_tokenize(g)[1] for g in grams]
     counter = Counter(tokens).most_common()[0]

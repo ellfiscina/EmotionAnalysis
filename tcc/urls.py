@@ -17,4 +17,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('text_mining.urls', namespace="text_mining")),
+    path('django-rq/', include('django_rq.urls'))
 ]
